@@ -1,12 +1,10 @@
+from intcivil import constants as const
 import enum
 
 
 class AgentStates(enum.Enum):
     IDLE = 0
     BUSY = 1
-
-
-AGE_CEILING = 80
 
 
 class Agent:
@@ -37,4 +35,4 @@ class Agent:
 
     def is_max_age(self):
         """ Check if age has exceeded AGE_CEILING """
-        return True if self.age >= AGE_CEILING else False
+        return True if self.age >= const.AGE_CEILING else False
