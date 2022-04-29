@@ -11,6 +11,12 @@
 
 A coursework assignment for Designing Intelligent Agents.
 
+Intelligent agents must cooperate together to build as many houses as possible within a time frame. Houses take time to build, and require Wood and Stone, which can be gathered.
+
+The catch is that agents get progressively more skilled and efficient in a task that they repeat, so they should tend to specialize in the same tasks. However, agents will 'die' of old age after enough game cycles, and every new house built introduces one new agent!
+
+The study would be on how the score and strategies vary according to the skewing of resource efficiency (i.e. 2 wood 8 stone for one house, a faster skill rate for wood than stone, etc.).
+
 ## Getting Started <a name = "getting_started"></a>
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
