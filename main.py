@@ -1,6 +1,6 @@
 import sys
 
-from int_civil.game import CivilGame
+import intcivil
 
 
 def main():
@@ -9,7 +9,7 @@ def main():
     # Run game code n times
     # 	Init Game
     # 	get average score
-    game = CivilGame()
+    game = intcivil.CivilGame()
     end = False
     while not end:
         num_cycles, end = game.step()
