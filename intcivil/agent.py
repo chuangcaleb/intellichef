@@ -6,6 +6,9 @@ class AgentStates(enum.Enum):
     BUSY = 1
 
 
+AGE_CEILING = 80
+
+
 class Agent:
     '''Represents an agent.'''
 
@@ -25,12 +28,13 @@ class Agent:
         # self.skill = {}
         self.state = AgentStates.IDLE
 
-        # check death
+    def __repr__(self):
+        return 'Agent #{:d}'.format(self.id)
 
+    def grow_older(self):
+        """ Increment age """
+        self.age += 1
 
-if __name__ == "__main__":
-    agent_1 = Agent()
-    Agent.agent_count()
-    agent_2 = Agent()
-    print(agent_2.id)
-    agent_3 = Agent()
+    def is_max_age(self):
+        """ Check if age has exceeded AGE_CEILING """
+        return True if self.age >= AGE_CEILING else False

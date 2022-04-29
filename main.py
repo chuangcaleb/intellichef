@@ -9,13 +9,12 @@ def main():
     # Run game code n times
     # 	Init Game
     # 	get average score
-    game = intcivil.CivilGame()
+    game = intcivil.CivilGame(max_cycles=100)
     end = False
     while not end:
-        num_cycles, end = game.step()
+        end = game.step()
 
-    # asd
-    print(num_cycles)
+    # print(list(game.agents)[0].age)
 
 
 if __name__ == '__main__':

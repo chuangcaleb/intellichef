@@ -25,20 +25,20 @@ The study would be on how the average skill level varies according to max number
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-### Prerequisites
-
-Run the following command to install the required python packages:
-
-```python
-pip install requirements.txt
-```
-
 ### Installing
 
 Clone the repo
 
 ```shell
 git clone https://github.com/chuangcaleb/intelligent-civilization
+```
+
+### Prerequisites
+
+Run the following command to install the required python packages:
+
+```python
+pip install requirements.txt
 ```
 
 End with an example of getting some data out of the system or using it for a little demo.
