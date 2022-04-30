@@ -1,4 +1,5 @@
-from intcivil.agent import Agent
+from intcivil.agent import Agent, AgentStates
+from intcivil.blackboard import Blackboard
 
 
 class CivilGame():
@@ -15,6 +16,7 @@ class CivilGame():
         self.num_houses = 0
         self.num_cycles = 0
         self.max_cycles = max_cycles
+        self.blackboard = Blackboard()
 
         # Init initial agents
         self.agents = set()
@@ -24,9 +26,14 @@ class CivilGame():
     # Check for end of cycle
     def _check_end(self):
         """ Check if cycle has reached max_cycles """
-        return True if self.num_cycles >= self.max_cycles else False
+
+        end_condition = (self.num_cycles >= self.max_cycles) or (
+            len(self.agents) == 0)
+
+        return True if end_condition else False
 
     # Step cycle
+
     def step(self):
         """Step through one game cycle
 
@@ -35,17 +42,14 @@ class CivilGame():
         bool: If the game has ended
         """
 
-        max_age_agents = set()
-
         # Run through agents
-        for agent in self.agents:
-            agent.grow_older()
+        current_step_agents = self.agents.copy()
+        for agent in current_step_agents:
 
-            if agent.is_max_age():
-                max_age_agents.add(agent)
+            agent.step()
 
-        # remove all max age agents
-        self.agents = self.agents - max_age_agents
+            if agent.state == AgentStates.DEAD:
+                self.agents.remove(agent)
 
         # Increment num_cycles
         self.num_cycles += 1

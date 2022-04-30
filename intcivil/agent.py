@@ -5,6 +5,7 @@ import enum
 class AgentStates(enum.Enum):
     IDLE = 0
     BUSY = 1
+    DEAD = 2
 
 
 class Agent:
@@ -29,9 +30,14 @@ class Agent:
     def __repr__(self):
         return 'Agent #{:d}'.format(self.id)
 
+    def step(self):
+        self.grow_older()
+
     def grow_older(self):
         """ Increment age """
         self.age += 1
+        if self.is_max_age():
+            self.state = AgentStates.DEAD
 
     def is_max_age(self):
         """ Check if age has exceeded AGE_CEILING """
