@@ -2,33 +2,33 @@ from intcivil import constants as const
 import enum
 
 
-class AgentStates(enum.Enum):
+class UnitStates(enum.Enum):
     IDLE = 0
     BUSY = 1
     DEAD = 2
 
 
-class Agent:
-    '''Represents an agent.'''
+class Unit:
+    '''Represents an Unit.'''
 
-    # A class variable, counting the number of agents
+    # A class variable, counting the number of units
     population = 0
 
     def __init__(self):
-        '''Initializes the agent.'''
+        '''Initializes the Unit.'''
 
         # Increment population and assign id
-        Agent.population += 1
-        self.id = Agent.population
-        # print('Initializing Agent #{}'.format(self.id))
+        Unit.population += 1
+        self.id = Unit.population
+        # print('Initializing Unit #{}'.format(self.id))
 
         # Other stats
         self.age = 0
         # self.skill = {}
-        self.state = AgentStates.IDLE
+        self.state = UnitStates.IDLE
 
     def __repr__(self):
-        return 'Agent #{:d}'.format(self.id)
+        return 'Unit #{:d}'.format(self.id)
 
     def step(self):
         self.grow_older()
@@ -37,7 +37,7 @@ class Agent:
         """ Increment age """
         self.age += 1
         if self.is_max_age():
-            self.state = AgentStates.DEAD
+            self.state = UnitStates.DEAD
 
     def is_max_age(self):
         """ Check if age has exceeded AGE_CEILING """
