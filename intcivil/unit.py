@@ -36,9 +36,6 @@ class Unit:
     def grow_older(self):
         """ Increment age """
         self.age += 1
-        if self.is_max_age():
+        # if age has exceeded AGE_CEILING
+        if self.age >= const.AGE_CEILING:
             self.state = UnitStates.DEAD
-
-    def is_max_age(self):
-        """ Check if age has exceeded AGE_CEILING """
-        return True if self.age >= const.AGE_CEILING else False

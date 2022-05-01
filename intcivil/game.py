@@ -1,11 +1,10 @@
 from intcivil.unit import Unit, UnitStates
-from intcivil.blackboard import Blackboard
 
 
-class CivilGame():
+class CivilGame:
     """ The Game object. """
 
-    def __init__(self, num_initial_units: int = 3, max_cycles: int = 3000):
+    def __init__(self, num_initial_units: int = 2, max_cycles: int = 3000):
         """Initializes a game
 
         Args:
@@ -16,7 +15,6 @@ class CivilGame():
         self.num_houses = 0
         self.num_cycles = 0
         self.max_cycles = max_cycles
-        self.blackboard = Blackboard()
 
         # Init initial units
         self.units = set()
@@ -27,17 +25,16 @@ class CivilGame():
     def _check_end(self):
         """ Check if cycle has reached an end condition """
 
-        # maximum cycles
+        # maximum cycles or
         # no more units
         end_condition = (
-                        (self.num_cycles >= self.max_cycles) or
-                        (len(self.units) == 0)
+            (self.num_cycles >= self.max_cycles) or
+            (len(self.units) == 0)
         )
 
         return True if end_condition else False
 
     # Step cycle
-
     def step(self):
         """Step through one game cycle
 
@@ -45,6 +42,8 @@ class CivilGame():
         int: Current number of cycles
         bool: If the game has ended
         """
+
+        # * Environment
 
         # Run through units
         current_step_units = self.units.copy()
@@ -54,6 +53,10 @@ class CivilGame():
 
             if unit.state == UnitStates.DEAD:
                 self.units.remove(unit)
+
+        # * Agent
+
+        pass
 
         # Increment num_cycles
         self.num_cycles += 1
