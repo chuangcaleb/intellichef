@@ -11,7 +11,7 @@
 
 A coursework assignment for the COMP3004 Designing Intelligent Agents module.
 
-Intelligent agents must cooperate together to maximize population within a time frame. One new unit is introduced for each house built; a house takes time to build, and requires Wood and Stone, which can be gathered.
+An intelligent agent must maximize population within a time frame. One new unit is introduced for each house built; a house takes time to build, and requires Wood and Stone, which can be gathered.
 
 The catch is that agents get progressively more skilled and efficient in a task that they repeat, so they should tend to specialize in the same tasks. However, agents will 'die' of old age after enough game cycles!
 <!-- Should they also simply grow inefficient as they age? -->
@@ -24,11 +24,21 @@ The study would be on how the average skill level varies according to max number
 
 OR
 
-The agents have a base modifier for each skill — some get more skilled at faster rates than others! This will
+The agents have a base modifier for each skill — some get more skilled at faster rates than others! This will throw in randomness with every new unit
+
+> Vary search depth (x-axis) and age lifespan (line color) and score (y-axis)
 
 OR
 
 Building a house requires 2+ agents
+
+OR
+
+Units get bored of the same job exponentially over cycles
+
+OR
+
+Units suddenly die
 
 <!-- After working, some agents will also need to rest. -->
 ## Getting Started <a name = "getting_started"></a>
