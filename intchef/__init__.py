@@ -1,1 +1,1 @@
-from intchef.game import CivilGame
+from intchef.session import CookingSession

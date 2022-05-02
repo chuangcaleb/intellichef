@@ -1,1 +1,0 @@
-AGE_CEILING = 80

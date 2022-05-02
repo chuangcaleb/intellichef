@@ -3,17 +3,15 @@ import sys
 import intchef
 
 
-def play_game():
-    """Plays a CivilGame
+def run_cooking_session():
+    """Runs a full cooking session
 
     Returns:
-            CivilGame: a finished game
+            int: total time elapsed for cooking
     """
-    game = intchef.CivilGame(max_cycles=80)
-    end = False
-    while not end:
-        end = game.step()
-    return game
+    session = intchef.CookingSession()
+    score = session.run()
+    return score
 
 
 def main():
@@ -21,10 +19,10 @@ def main():
 
     # Run game code n times
     # Init Game
-    game = play_game()
-
+    score = run_cooking_session()
+    
+    print(score)
     # 	get average score
-    print(game.num_cycles)
 
 
 if __name__ == '__main__':
