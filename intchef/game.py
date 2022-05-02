@@ -1,5 +1,4 @@
-from intcivil.unit import Unit, UnitStates
-from intcivil.blackboard import Blackboard
+from intchef.unit import Unit, UnitStates
 
 
 class CivilGame():

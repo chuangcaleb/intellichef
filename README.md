@@ -1,4 +1,4 @@
-# Intelligent Civilization
+# Intellichef - Asynchronous Goal Oriented Action Planning
 
 ## Table of Contents
 
@@ -11,24 +11,53 @@
 
 A coursework assignment for the COMP3004 Designing Intelligent Agents module.
 
-Intelligent agents must cooperate together to maximize population within a time frame. One new unit is introduced for each house built; a house takes time to build, and requires Wood and Stone, which can be gathered.
+> Following a recipe is one thing, but managing your kitchen resources is another!
 
-The catch is that agents get progressively more skilled and efficient in a task that they repeat, so they should tend to specialize in the same tasks. However, agents will 'die' of old age after enough game cycles!
-<!-- Should they also simply grow inefficient as they age? -->
+### Basics of GOAP
 
-The study would be on how the score and strategies vary according to the skewing of resource efficiency (i.e. 2 wood 8 stone for one house, a faster skill rate for wood than stone, etc.). It's assumed that one resource would have more skilled agents, but perhaps at the same skill level.
+GOAP stands for Goal Oriented Action Planning. It is remarkably similar to working in the kitchen.
 
-OR
+To create a plan, GOAP-Agents need to know:
 
-The study would be on how the average skill level varies according to max number of cycles. As cycles increase, there should be more skilled workers.
+- The list of actions that can be taken
+- The current world state
+- The desired goal state
 
-OR
+Actions are specified with:
 
-The agents have a base modifier for each skill — some get more skilled at faster rates than others! This will
+- The precondition
+- The postcondition (or, effect)
+- The cost of the action
 
-OR
+<!-- To describe world state, we define a set of world state atoms. Each atom has a tag, and a boolean value. -->
 
-Building a house requires 2+ agents
+The planner will then be able to formulate a plan of actions that takes the world to the desired state, provided such a path exists. The plan formulated is guaranteed to be the lowest cost plan.
+
+<!-- This is appropriate for the kitchen because there are so many different  -->
+
+### Asynchronous Scheduling
+
+If recipe steps were done sequentially, it would take forever! Actions can be simultaneously occurring in the background, like having a chicken in the oven while chopping up the garnish.
+
+Another big factor to be considered is that some actions will have a delayed effect on the world state; for example, boiling spaghetti will require you to drain the water when it's done cooking, because delaying would make pasta become too soft.
+
+This is handled by adding a temporal dimension to the world state. A pot can be in use from timestamps 10-15, and then again later at 30-35.
+
+### Search Optimization
+
+<!-- The A* algorithm can be used to search for the optimal sequence of recipe steps.
+
+(and later on, optimal ingredients)
+
+The forward cost to minimize would simply be the time elapsed. This may or may not count the time in between recipe steps.
+
+A reasonable backwards heuristic function could be the amount of time  -->
+
+<!-- Since the search space is not very big, it is not necessary to run an informed search. -->
+
+### Study
+
+This study aims to see if there's a difference in optimizing total time elapsed vs total time spent active.
 
 <!-- After working, some agents will also need to rest. -->
 ## Getting Started <a name = "getting_started"></a>

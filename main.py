@@ -1,6 +1,6 @@
 import sys
 
-import intcivil
+import intchef
 
 
 def play_game():
@@ -9,7 +9,7 @@ def play_game():
     Returns:
             CivilGame: a finished game
     """
-    game = intcivil.CivilGame(max_cycles=80)
+    game = intchef.CivilGame(max_cycles=80)
     end = False
     while not end:
         end = game.step()
