@@ -10,7 +10,7 @@ def run_cooking_session(agent, recipe):
             int: total time elapsed for cooking
     """
     session = intchef.CookingSession(agent, recipe)
-    score = session.loop()
+    score = session.main()
     return score
 
 

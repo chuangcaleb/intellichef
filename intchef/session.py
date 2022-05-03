@@ -2,13 +2,12 @@
 The CookingSession class that handles each GOAP session.
 """
 
-from collections import Counter
-from typing import List
-
-from .goap.colors import green, red
+from typing import Dict, List
 
 from .goap.abstract import Recipe
+from .goap.actions import Action
 from .goap.agent import Agent
+from .goap.colors import green, red
 from .goap.components import Components
 
 WorldState: List[Components]
@@ -18,17 +17,17 @@ class CookingSession:
     """ An object to handle one entire cooking session. """
 
     def __init__(self, agent: Agent, recipe: Recipe, timeout: int = 10):
-        """Initializes a cooking session
-        """
+        """Initializes a cooking session"""
 
         self.time_elapsed: int = 0  # init: no time elapsed
+        self.error_msg = None
 
         self.agent = agent
         self.recipe = recipe
         self.timeout = timeout
 
-        # init: empty world
-        self.world_state: WorldState = recipe.get_ingredients()
+        # init: default WorldState
+        self.world_state = recipe.ingredients
 
         # param to include washing equipment in final goal state?
 
@@ -48,9 +47,23 @@ class CookingSession:
             should_terminate = True
             print(red("\n\nExceeded time limit!"))
 
+        if self.error_msg != None:
+            should_terminate = True
+            print(red("\n\nERROR:", self.error_msg))
+
         return should_terminate
 
-    def run(self) -> bool:
+    def main(self) -> bool:
+
+        self.recipe.print_details()
+
+        while not self._check_end():
+            self.loop()
+            self.time_elapsed += 1
+
+        return self.time_elapsed
+
+    def loop(self) -> bool:
 
         print("\n\n> Time:", green(self.time_elapsed), "--------------------\n")
 
@@ -58,34 +71,67 @@ class CookingSession:
         print("Current world state:\n", self.world_state, end="\n\n")
 
         action = self.agent.policy(self.world_state)
+        self.world_state.update_condition(action)
 
-    def loop(self) -> bool:
 
-        self.recipe.print_details()
+class WorldState(Dict):
 
-        # Handle termination
-        while not self._check_end():
-            self.run()
-            self.time_elapsed += 1
+    # def __init__(self, initial_state: Dict[Components, int]):
+    #     self.world_state = initial_state
 
-        return self.time_elapsed
+    def __init__(self, initial_state: Dict[Components, int], *args, **kw):
+        super(WorldState, self).__init__(initial_state, *args, **kw)
+        self.itemlist = super(WorldState, self).keys()
 
-    # def _get_world_state(self, world: 'World') -> Counter:
-    #     return Counter(world)
+    # def __repr__(self):
+    #     return str(self.world_state)
 
-    # def _process_action(action, world):
-    #     pass
+    # def __get__(self):
+    #     return self.world_state
 
-        # Step cycle
+    def meets_precondition(self, preconditions) -> bool:
 
-        # def step(self):
-        #     """Step through one
+        # for precondition in precondition
+        for condition, value in preconditions.items():
 
-        #     Returns:
-        #     bool: If the game has ended
-        #     """
+            if (
+                # if world state has item
+                (condition in self.keys()) and
+                # and also in enough quantity
+                (value >= self[condition])
+            ):
+                # print(condition)
+                pass
 
-        #     # Increment num_cycles
-        #     self.time_elapsed += 1
+            else:
+                return False  # If it fails at all, instantly return False
 
-        #     return self._check_end()
+        return True  # If it never fails, return True
+
+    def update_condition(self, action: Action):
+
+        updated_world_state = {}
+
+        for cond in action.precond:
+            # print(cond)
+            # print(self)
+            # print(self[cond])
+
+            # Pop conditions from world state
+            updated_world_state[cond] = (
+                self[cond] - action.precond[cond]
+            )
+
+        for cond in action.effect:
+            # print(cond)
+            # print(old_world_state)
+
+            # Push new condition into world state
+            if cond in self.keys():  # Add to current count
+                updated_world_state[cond] = (
+                    self[cond] + action.effect[cond]
+                )
+            else:  # Or add a new component
+                updated_world_state.update({cond: action.effect[cond]})
+
+        self.update(updated_world_state)

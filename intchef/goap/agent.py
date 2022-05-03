@@ -2,6 +2,8 @@ from abc import ABC, abstractmethod
 import random
 from typing import List
 
+# from intchef.session import WorldState
+
 
 from .actions import ALL_ACTIONS, Action
 
@@ -16,10 +18,10 @@ class Agent(ABC):
 
         legal_actions = [
             action for action in ALL_ACTIONS
-            if self._meets_precondition(action.precond, world_state)
+            if world_state.meets_precondition(action.precond)
         ]
 
-        print(world_state)
+        # print(world_state)
         # print(legal_actions[0].precond)
         # print()
 
@@ -29,28 +31,6 @@ class Agent(ABC):
         # print(legal_actions[0].precond in dict(world_state.keys()))
 
         return legal_actions
-
-    def _meets_precondition(self, preconditions, world_state) -> bool:
-
-        # for precondition in precondition
-        for condition, value in preconditions.items():
-
-            if (
-                # if world state has item
-                (condition in world_state.keys()) and
-                # and also in enough quantity
-                (value >= world_state[condition])
-            ):
-                # print(condition)
-                pass
-
-            else:
-                return False  # If it fails at all, instantly return False
-
-        return True  # If it never fails, return True
-
-        # check = True
-        # return check
 
 
 class RandomAgent(Agent):

@@ -23,7 +23,7 @@ ALL_ACTIONS = {
     Action(
         name="Toast Bread",
         precond={Ingredients.BREAD: 1},
-        effect=[Components.TOAST],
+        effect={Components.TOAST: 1},
         time_elapsed=4,
     )
 }
