@@ -21,15 +21,6 @@ class Agent(ABC):
             if world_state.meets_precondition(action.precond)
         ]
 
-        # print(world_state)
-        # print(legal_actions[0].precond)
-        # print()
-
-        # toast_precond = legal_actions[0].precond
-        # print(self._meets_precondition(toast_precond, world_state))
-
-        # print(legal_actions[0].precond in dict(world_state.keys()))
-
         return legal_actions
 
 
@@ -45,8 +36,7 @@ class RandomAgent(Agent):
             action = random.choice(tuple(legal_actions))
             print(type(self).__name__, "chooses:", action, end="\n\n")
 
-        else:
-
-            action = []
+        else:  # If stuck, return None
+            action = None
 
         return action

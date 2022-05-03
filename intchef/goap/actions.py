@@ -33,7 +33,7 @@ ALL_ACTIONS = {
             ComponentList.HAM: 1,
             ComponentList.CHEESE: 1
         },
-        effect={ComponentList.TOAST: 1},
+        effect={ComponentList.SIMPLE_TOAST_SANDWICH: 1},
         time_elapsed=4,
     )
 }

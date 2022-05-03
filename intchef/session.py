@@ -74,7 +74,11 @@ class CookingSession:
         print("Current world state:\n", self.world_state, end="\n\n")
 
         action = self.agent.policy(self.world_state)
-        self.world_state.update_condition(action)
+
+        if action:
+            self.world_state.update_condition(action)
+        else:
+            self.error_msg = "Stuck, no legal actions!"
 
 
 class WorldState(Dict):
@@ -98,9 +102,8 @@ class WorldState(Dict):
                 # if world state has item
                 (condition in self.keys()) and
                 # and also in enough quantity
-                (value >= self[condition])
+                (self[condition] >= value)
             ):
-                # print(condition)
                 pass
 
             else:
@@ -113,9 +116,6 @@ class WorldState(Dict):
         updated_world_state = {}
 
         for cond in action.precond:
-            # print(cond)
-            # print(self)
-            # print(self[cond])
 
             # Pop conditions from world state
             updated_world_state[cond] = (
@@ -123,8 +123,6 @@ class WorldState(Dict):
             )
 
         for cond in action.effect:
-            # print(cond)
-            # print(old_world_state)
 
             # Push new condition into world state
             if cond in self.keys():  # Add to current count

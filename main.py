@@ -18,11 +18,11 @@ def main():
     """Main entry point for the script."""
 
     recipe_book = intchef.RecipeBook()
-    recipe_toast = recipe_book.TOAST
+    recipe = recipe_book.SIMPLE_TOAST_SANDWICH
 
     # Run game code n times
     # Init Game
-    score = run_cooking_session(intchef.RandomAgent(), recipe_toast)
+    score = run_cooking_session(intchef.RandomAgent(), recipe)
 
     print("Time taken:", score)
     # 	get average score
