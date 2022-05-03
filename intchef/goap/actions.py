@@ -25,11 +25,5 @@ ALL_ACTIONS = {
         precond={Ingredients.BREAD: 1},
         effect=[Components.TOAST],
         time_elapsed=4,
-    ),
-    Action(
-        name="Random",
-        precond={Components.TOAST: 1},
-        effect=[Components.TOAST],
-        time_elapsed=4,
     )
 }

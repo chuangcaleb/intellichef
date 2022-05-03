@@ -10,7 +10,7 @@ def run_cooking_session(agent, recipe):
             int: total time elapsed for cooking
     """
     session = intchef.CookingSession(agent, recipe)
-    score = session.run()
+    score = session.loop()
     return score
 
 
@@ -19,14 +19,14 @@ def main():
 
     recipe_book = intchef.RecipeBook()
     recipe_toast = recipe_book.TOAST
-    # recipe_toast.print_details()
 
     # Run game code n times
     # Init Game
     score = run_cooking_session(intchef.RandomAgent(), recipe_toast)
 
-    # print(score)
+    print("Time taken:", score)
     # 	get average score
+    print()
 
 
 if __name__ == '__main__':
