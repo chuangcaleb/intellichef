@@ -6,6 +6,6 @@ class RecipeBook:
 
     TOAST = Recipe(
         name='Toast',
-        ingredients=[Components.BUTTER_TOAST],
-        goal_state=[Components.BUTTER_TOAST]
+        ingredients=[Components.BREAD],
+        goal_state=[Components.TOAST]
     )

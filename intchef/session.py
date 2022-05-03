@@ -43,13 +43,17 @@ class CookingSession:
     def run(self) -> bool:
 
         world_state = self._get_world_state(self.world)
-        print("Current world state:", world_state)
-        world = self.agent.policy(world_state)
+        print("Current world state:\n", world_state, end="\n\n")
+
+        action = self.agent.policy(world_state)
+        print(action.precond)
 
         return self._check_end()
 
     def _get_world_state(self, world: 'World') -> Counter:
         return Counter(world)
+
+    # def _process_action(action, world):
 
         # Step cycle
 
