@@ -8,9 +8,9 @@ from .goap.abstract import Recipe
 from .goap.actions import Action
 from .goap.agent import Agent
 from .goap.colors import green, red
-from .goap.components import Components
+from .goap.components import ComponentList
 
-WorldState: List[Components]
+WorldState: List[ComponentList]
 
 
 class CookingSession:
@@ -79,10 +79,7 @@ class CookingSession:
 
 class WorldState(Dict):
 
-    # def __init__(self, initial_state: Dict[Components, int]):
-    #     self.world_state = initial_state
-
-    def __init__(self, initial_state: Dict[Components, int], *args, **kw):
+    def __init__(self, initial_state: Dict[ComponentList, int], *args, **kw):
         super(WorldState, self).__init__(initial_state, *args, **kw)
         self.itemlist = super(WorldState, self).keys()
 

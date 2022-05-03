@@ -4,7 +4,7 @@ Defines all GOAP actions
 
 
 from .colors import red
-from .components import Components, Ingredients
+from .components import ComponentList
 
 
 class Action:
@@ -22,8 +22,18 @@ class Action:
 ALL_ACTIONS = {
     Action(
         name="Toast Bread",
-        precond={Ingredients.BREAD: 1},
-        effect={Components.TOAST: 1},
+        precond={ComponentList.BREAD: 1},
+        effect={ComponentList.TOAST: 1},
+        time_elapsed=4,
+    ),
+    Action(
+        name="Assemble Simple Toast Sandwich",
+        precond={
+            ComponentList.TOAST: 2,
+            ComponentList.HAM: 1,
+            ComponentList.CHEESE: 1
+        },
+        effect={ComponentList.TOAST: 1},
         time_elapsed=4,
     )
 }

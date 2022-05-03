@@ -1,16 +1,28 @@
 from intchef.session import WorldState
-from .goap.abstract import Recipe
-from .goap.components import Components, Ingredients
+from .goap.abstract import Component, Recipe
+from .goap.components import ComponentList
 
 
 class RecipeBook:
 
     TOAST = Recipe(
-        name='Toast',
+        name="Toast",
         ingredients=WorldState({
-            Components.BREAD: 1
+            ComponentList.BREAD: 1
         }),
         goal_state=WorldState({
-            Components.TOAST: 1
+            ComponentList.TOAST: 1
+        })
+    )
+
+    SIMPLE_TOAST_SANDWICH = Recipe(
+        name="Toast Sandwich",
+        ingredients=WorldState({
+            ComponentList.BREAD: 2,
+            ComponentList.HAM: 1,
+            ComponentList.CHEESE: 1
+        }),
+        goal_state=WorldState({
+            ComponentList.SIMPLE_TOAST_SANDWICH: 1
         })
     )

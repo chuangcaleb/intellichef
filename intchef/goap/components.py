@@ -4,18 +4,22 @@ Definitions of every Component
 from .abstract import Component
 
 
-class Ingredients():
+class ComponentList:
 
     BREAD = Component("Bread", "slice")
     BUTTER = Component("Butter", "knob")
-
-
-class Components(Ingredients):
+    HAM = Component("Ham", "slice")
+    CHEESE = Component("Cheese", "slice")
 
     TOAST = Component("Toast", "slice")
-    BUTTER_TOAST = Component(
-        "Butter Toast",
-        "slice",
+
+    SIMPLE_TOAST_SANDWICH = Component(
+        "Simple Toast Sandwich",
+        counter="",
         # state="buttered",
-        aggrg=[Ingredients.BREAD, Ingredients.BUTTER]
+        aggrg={
+            TOAST: 2,
+            HAM: 1,
+            CHEESE: 1
+        }
     )
