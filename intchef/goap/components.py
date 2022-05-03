@@ -1,20 +1,19 @@
 """
 Definitions of every Component
 """
-
 from .abstract import Component
 
 
-class Ingredients:
+class Ingredients():
 
-    BREAD = Component("bread", "slice")
+    BREAD = Component("Bread", "slice")
 
 
-class Components:
+class Components(Ingredients):
 
     TOAST = Component("toast", "slice")
     BUTTER_TOAST = Component(
-        "butter toast",
+        "Butter Toast",
         "slice",
         # state="buttered",
     )

@@ -1,11 +1,14 @@
 """ 
 Contains the class definitions
 """
+
 import pprint
 from abc import ABC, abstractmethod
 from typing import List, Set
 
-pp = pprint.PrettyPrinter(width=10)
+from .colors import green, yellow
+
+pp = pprint.PrettyPrinter(width=5, compact=True)
 
 
 class KitchenResource(ABC):
@@ -16,7 +19,7 @@ class KitchenResource(ABC):
     def __repr__(self):
         return "{}".format(
             # type(self).__name__,
-            self.display_name
+            yellow(self.display_name)
         )
 
     @property
@@ -46,18 +49,17 @@ class Component(KitchenResource):
 
     def __repr__(self):
         # return "{}({}({}))".format(
-        return "{}({})".format(
-            # type(self).__name__,
-            self.display_name,
-            pp.pformat(self.aggrg)
-        )
-
-    # def prepr(self):
-    #     return "{}({})".format(
-    #         # type(self).__name__,
-    #         self.display_name,
-    #         pp.pformat(self.aggrg)
-    #     )
+        if self.aggrg == None:
+            return "{}".format(
+                # type(self).__name__,
+                yellow(self.display_name)
+            )
+        else:
+            return "{}({})".format(
+                # type(self).__name__,
+                yellow(self.display_name),
+                pp.pformat(self.aggrg)
+            )
 
 
 # class Ingredient(Component):
@@ -87,7 +89,7 @@ class Recipe(KitchenResource):
     def print_details(self):
 
         print()
-        print("Recipe for:", self.name)
+        print("Recipe for:", green(self.name))
 
         print("Ingredients:", end=" ")
         print(self.ingredients)
