@@ -39,17 +39,18 @@ class CookingSession:
         should_terminate = False
 
         # end_condition is when (subset(world state) == goal state)
-        if self.world_state == self.recipe.goal_state:
+        if self.world_state.meets_precondition(self.recipe.goal_state):
             should_terminate = True
-            print(green("\n\nSuccessfully made", self.recipe.display_name, "!"))
+            print(green(
+                f"\n\nSuccessfully made {self.recipe.display_name}!\n"))
 
         if self.time_elapsed >= self.timeout:
             should_terminate = True
-            print(red("\n\nExceeded time limit!"))
+            print(red("\n\nExceeded time limit!\n"))
 
         if self.error_msg != None:
             should_terminate = True
-            print(red("\n\nERROR:", self.error_msg))
+            print(red(f"\n\nERROR: {self.error_msg}\n"))
 
         return should_terminate
 
@@ -60,6 +61,8 @@ class CookingSession:
         while not self._check_end():
             self.loop()
             self.time_elapsed += 1
+
+        print("Final world state:\n", self.world_state)
 
         return self.time_elapsed
 

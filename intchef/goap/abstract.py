@@ -87,7 +87,7 @@ class Recipe(KitchenResource):
     def print_details(self):
 
         print()
-        print("Recipe for:", green(self.name), "-----------------------------")
+        print("Recipe for:", green(self.name), "#############################")
 
         print("Ingredients:", end=" ")
         print(self.ingredients)
