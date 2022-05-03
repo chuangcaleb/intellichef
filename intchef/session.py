@@ -1,21 +1,23 @@
+"""
+The CookingSession class that handles each GOAP session.
+"""
 
 
-class CookingSession():
-    """ An object to handle one session of cooking. """
+class CookingSession:
+    """ An object to handle one entire cooking session. """
 
     def __init__(self):
         """Initializes a cooking session
-
-        Args:
-        num_initial_units (int, optional): Number of initial units. Defaults to 3.
         """
 
-        self.time_elapsed = 0
-        # param to include washing equipment?
+        self.time_elapsed = 0  # init: no time elapsed
+        self.world_state = []  # init: empty world state
+
+        # param to include washing equipment in final goal state?
 
     # Check for end of cycle
 
-    def _check_end(self):
+    def _check_end(self) -> bool:
         """ Check if cycle has reached an end condition """
 
         # end_condition is when (subset(world state) == goal state)
@@ -25,8 +27,8 @@ class CookingSession():
 
         return True if end_condition else False
 
-    def run(self):
-        return 0
+    def run(self) -> bool:
+        return self._check_end()
 
     # Step cycle
 
@@ -36,15 +38,6 @@ class CookingSession():
     #     Returns:
     #     bool: If the game has ended
     #     """
-
-    #     # Run through units
-    #     current_step_units = self.units.copy()
-    #     for unit in current_step_units:
-
-    #         unit.step()
-
-    #         if unit.state == UnitStates.DEAD:
-    #             self.units.remove(unit)
 
     #     # Increment num_cycles
     #     self.time_elapsed += 1

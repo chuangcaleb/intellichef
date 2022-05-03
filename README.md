@@ -51,7 +51,7 @@ This is handled by adding a temporal dimension to the world state. A pot can be 
 
 The forward cost to minimize would simply be the time elapsed. This may or may not count the time in between recipe steps.
 
-A reasonable backwards heuristic function could be the amount of time  -->
+A reasonable backwards heuristic function could be the amount of time an action takes, not counting the idle time in between -->
 
 <!-- Since the search space is not very big, it is not necessary to run an informed search. -->
 
@@ -69,7 +69,7 @@ These instructions will get you a copy of the project up and running on your loc
 Clone the repo
 
 ```shell
-git clone https://github.com/chuangcaleb/intelligent-civilization
+git clone https://github.com/chuangcaleb/intellichef
 ```
 
 ### Prerequisites
