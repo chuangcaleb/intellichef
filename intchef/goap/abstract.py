@@ -21,13 +21,18 @@ class KitchenResource(ABC):
 
     @property
     def display_name(self):
-        return self.name.capitalize()
+
+        def to_camel_case(str):
+            # s = text.replace("-", " ").replace("_", " ")
+            words = str.split()
+            if len(str) == 0:
+                return str
+            return ''.join(w.capitalize() for w in words)
+
+        return to_camel_case(self.name)
 
 
 # WorldState = Set['States']
-SubComponents = List['Component']
-
-
 class Component(KitchenResource):
 
     def __init__(
@@ -35,7 +40,7 @@ class Component(KitchenResource):
             name: str,
             counter: str,
             # state: str = None,
-            aggrg: SubComponents = None,
+            aggrg: List['Component'] = None,
             quantity: int = 1,
     ):
         super().__init__(name)
