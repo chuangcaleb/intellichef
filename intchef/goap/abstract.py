@@ -81,27 +81,30 @@ class Recipe(KitchenResource):
 
     def __init__(
         self,
-        name: str,
+        goal_state: List[Component],
         ingredients: List[Component],
-        goal_state: List[Component]
+        name: str = None,
     ):
-        super().__init__(name)
-        self.ingredients = ingredients
+
+        # XX If no name, just take the first and only goal state's comp name
+        if name == None:
+            # If only one item in goal state, take its name as recipe name
+            # if len(goal_state) == 1:
+            extracted_name = list(goal_state)[0].name
+        else:
+            extracted_name = name
+        super().__init__(extracted_name)
+
         self.goal_state = goal_state
+        self.ingredients = ingredients
 
     def print_details(self):
 
         print()
         print("Recipe for:", green(self.name), "#############################")
 
-        print("Ingredients:", end=" ")
-        print(self.ingredients)
-
         print("Goal State:", end=" ")
         print(self.goal_state)
 
-    # def get_ingredients(self):
-    #     return self.ingredients
-
-    # def __repr__(self):
-    #     return "Recipe({})".format(selef.name)
+        print("Ingredients:", end=" ")
+        print(self.ingredients)

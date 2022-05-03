@@ -18,7 +18,7 @@ def main():
     """Main entry point for the script."""
 
     recipe_book = intchef.RecipeBook()
-    recipe = recipe_book.SIMPLE_TOAST_SANDWICH
+    recipe = recipe_book.TOAST
 
     # Run game code n times
     # Init Game
