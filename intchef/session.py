@@ -2,16 +2,29 @@
 The CookingSession class that handles each GOAP session.
 """
 
+from collections import Counter
+from typing import List
+
+from .goap.abstract import Recipe
+from .goap.agent import Agent
+from .goap.components import Components
+
+World: List[Components]
+
 
 class CookingSession:
     """ An object to handle one entire cooking session. """
 
-    def __init__(self):
+    def __init__(self, agent: Agent, recipe: Recipe):
         """Initializes a cooking session
         """
 
-        self.time_elapsed = 0  # init: no time elapsed
-        self.world_state = []  # init: empty world state
+        self.time_elapsed: int = 0  # init: no time elapsed
+
+        self.agent = agent
+
+        # init: empty world
+        self.world: World = recipe.get_ingredients()
 
         # param to include washing equipment in final goal state?
 
@@ -28,18 +41,26 @@ class CookingSession:
         return True if end_condition else False
 
     def run(self) -> bool:
+
+        world_state = self._get_world_state(self.world)
+        print("Current world state:", world_state)
+        world = self.agent.policy(world_state)
+
         return self._check_end()
 
-    # Step cycle
+    def _get_world_state(self, world: 'World') -> Counter:
+        return Counter(world)
 
-    # def step(self):
-    #     """Step through one
+        # Step cycle
 
-    #     Returns:
-    #     bool: If the game has ended
-    #     """
+        # def step(self):
+        #     """Step through one
 
-    #     # Increment num_cycles
-    #     self.time_elapsed += 1
+        #     Returns:
+        #     bool: If the game has ended
+        #     """
 
-    #     return self._check_end()
+        #     # Increment num_cycles
+        #     self.time_elapsed += 1
+
+        #     return self._check_end()

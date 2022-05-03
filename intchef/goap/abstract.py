@@ -4,11 +4,11 @@ Contains the class definitions
 
 import pprint
 from abc import ABC, abstractmethod
-from typing import List, Set
+from typing import List
 
 from .colors import green, yellow
 
-pp = pprint.PrettyPrinter(width=5, compact=True)
+# pp = pprint.PrettyPrinter(width=5, compact=True)
 
 
 class KitchenResource(ABC):
@@ -58,7 +58,8 @@ class Component(KitchenResource):
             return "{}({})".format(
                 # type(self).__name__,
                 yellow(self.display_name),
-                pp.pformat(self.aggrg)
+                # pp.pformat(self.aggrg)
+                self.aggrg
             )
 
 
@@ -96,6 +97,9 @@ class Recipe(KitchenResource):
 
         print("Goal State:", end=" ")
         print(self.goal_state)
+
+    def get_ingredients(self):
+        return self.ingredients
 
     # def __repr__(self):
     #     return "Recipe({})".format(selef.name)
