@@ -11,7 +11,7 @@ from .goap.abstract import Recipe
 from .goap.agent import Agent
 from .goap.components import Components
 
-World: List[Components]
+WorldState: List[Components]
 
 
 class CookingSession:
@@ -28,7 +28,7 @@ class CookingSession:
         self.timeout = timeout
 
         # init: empty world
-        self.world: World = recipe.get_ingredients()
+        self.world_state: WorldState = recipe.get_ingredients()
 
         # param to include washing equipment in final goal state?
 
@@ -40,7 +40,7 @@ class CookingSession:
         should_terminate = False
 
         # end_condition is when (subset(world state) == goal state)
-        if self.world == self.recipe.goal_state:
+        if self.world_state == self.recipe.goal_state:
             should_terminate = True
             print(green("\n\nSuccessfully made", self.recipe.display_name, "!"))
 
@@ -54,11 +54,10 @@ class CookingSession:
 
         print("\n\n> Time:", green(self.time_elapsed), "--------------------\n")
 
-        world_state = self._get_world_state(self.world)
-        print("Current world state:\n", world_state, end="\n\n")
+        # world_state = self._get_world_state(self.world)
+        print("Current world state:\n", self.world_state, end="\n\n")
 
-        action = self.agent.policy(world_state)
-        print(action.precond)
+        action = self.agent.policy(self.world_state)
 
     def loop(self) -> bool:
 
@@ -71,10 +70,11 @@ class CookingSession:
 
         return self.time_elapsed
 
-    def _get_world_state(self, world: 'World') -> Counter:
-        return Counter(world)
+    # def _get_world_state(self, world: 'World') -> Counter:
+    #     return Counter(world)
 
     # def _process_action(action, world):
+    #     pass
 
         # Step cycle
 

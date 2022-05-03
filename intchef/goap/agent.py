@@ -18,8 +18,8 @@ class Agent(ABC):
             action for action in ALL_ACTIONS
             if self._meets_precondition(action.precond, world_state)
         ]
-        # print(legal_actions[0].precond in [])
-        # print(world_state)
+
+        print(world_state)
         # print(legal_actions[0].precond)
         # print()
 
@@ -32,11 +32,14 @@ class Agent(ABC):
 
     def _meets_precondition(self, preconditions, world_state) -> bool:
 
+        # for precondition in precondition
         for condition, value in preconditions.items():
 
             if (
-                (condition in world_state) and  # world state has condition
-                (value >= world_state[condition])  # and also w enough quantity
+                # if world state has item
+                (condition in world_state.keys()) and
+                # and also in enough quantity
+                (value >= world_state[condition])
             ):
                 # print(condition)
                 pass
