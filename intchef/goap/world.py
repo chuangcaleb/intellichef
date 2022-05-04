@@ -2,8 +2,6 @@
 
 from typing import Dict
 
-from regex import P
-
 from .actions import Action
 from .components import ComponentList
 
@@ -128,3 +126,6 @@ class WorldState(Dict):
         print(updated_world_state)
 
         self.update(updated_world_state)
+
+    def get_history(self, timestamp: int) -> 'WorldState':
+        return {k: v for k, v in self.items() if k <= timestamp}

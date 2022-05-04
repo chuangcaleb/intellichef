@@ -7,6 +7,7 @@ from .goap.abstract import Recipe
 from .goap.agent import Agent
 from .goap.colors import green, red
 from .goap.world import WorldState
+import pprint as pp
 
 
 class CookingSession:
@@ -60,7 +61,11 @@ class CookingSession:
             self.loop()
             self.timestamp += 1
 
-        print("Final world state:\n", self.world_state)
+        world_history = self.world_state.get_history(self.timestamp)
+
+        print("Final world state history:\n")
+        print("\n".join([f"{k}: {v}" for k, v in world_history.items()]))
+        print()
 
         return self.timestamp
 
