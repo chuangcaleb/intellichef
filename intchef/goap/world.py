@@ -123,9 +123,20 @@ class WorldState(Dict):
                      for cond, value in action.effect[rel_timestamp].items()}
                 )
 
-        print(updated_world_state)
-
+        # print(updated_world_state)
         self.update(updated_world_state)
+        self._clean_zero_entries()
+
+    def _clean_zero_entries(self):
+
+        # Get list of zero entries
+        zero_list = [(frame, comp)
+                     for frame in self.values()
+                     for comp, val in frame.items()
+                     if val == 0]
+
+        for frame, comp in zero_list:
+            frame.pop(comp)
 
     def get_history(self, timestamp: int) -> 'WorldState':
         return {k: v for k, v in self.items() if k <= timestamp}
