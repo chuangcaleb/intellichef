@@ -39,3 +39,29 @@ class RandomAgent(Agent):
             action = None
 
         return action
+
+
+class ActionAgent(Agent):
+
+    def policy(self, world_state, timestamp) -> Action:
+
+        legal_actions = self._get_legal_actions(world_state[timestamp])
+        print('All Legal Actions:\n', legal_actions, end="\n\n")
+
+        if len(legal_actions) > 0:
+
+            # if "Do Nothing" in
+
+            action = random.choice(tuple(legal_actions))
+            print(type(self).__name__, "chooses:", action, end="\n\n")
+
+        else:  # If stuck, return None
+            action = None
+
+        return action
+
+
+class AgentList:
+
+    RANDOM_AGENT = RandomAgent()
+    ACTION_AGENT = ActionAgent()
