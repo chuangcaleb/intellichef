@@ -6,7 +6,7 @@ The CookingSession class that handles each GOAP session.
 from .goap.abstract import Recipe
 from .goap.agent import Agent
 from .goap.colors import green, red
-from .world import WorldState
+from .goap.world import WorldState
 
 
 class CookingSession:
@@ -23,7 +23,7 @@ class CookingSession:
         self.timeout = timeout
 
         # init: default WorldState
-        self.world_state = recipe.ingredients
+        self.world_state: WorldState = recipe.ingredients
 
         # param to include washing equipment in final goal state?
 
@@ -38,7 +38,7 @@ class CookingSession:
         if self.world_state.meets_precondition(self.recipe.goal_state):
             should_terminate = True
             print(green(
-                f"\n\nSuccessfully made {self.recipe.display_name}!\n"))
+                f"\n\nSuccessfully made: {self.recipe.display_name}!\n"))
 
         if self.time_elapsed >= self.timeout:
             should_terminate = True

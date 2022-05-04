@@ -32,7 +32,6 @@ class KitchenResource(ABC):
         return to_camel_case(self.name)
 
 
-# WorldState = Set['States']
 class Component(KitchenResource):
 
     def __init__(
@@ -108,3 +107,7 @@ class Recipe(KitchenResource):
 
         print("Ingredients:", end=" ")
         print(self.ingredients)
+
+    @property
+    def display_name(self):
+        return self.name
