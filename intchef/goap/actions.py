@@ -1,4 +1,4 @@
-""" 
+"""
 Defines all GOAP actions
 """
 
@@ -18,6 +18,11 @@ class Action:
 
 
 ALL_ACTIONS = {
+    Action(
+        name="Do Nothing",
+        precond={},
+        effect={}
+    ),
     Action(
         name="Toast Bread",
         precond={ComponentList.BREAD: 1},

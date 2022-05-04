@@ -1,7 +1,8 @@
 """ World State of the session at any one time, across time dimensions """
 
-from turtle import update
 from typing import Dict
+
+from regex import P
 
 from .actions import Action
 from .components import ComponentList
@@ -30,6 +31,7 @@ class WorldStateFrame(Dict):
                 pass
 
             else:
+                # print(self, preconditions)
                 return False  # If it fails at all, instantly return False
 
         return True  # If it never fails, return True
@@ -73,29 +75,56 @@ class WorldState(Dict):
         return True if frame.meets_precondition(preconditions) else False
 
     def update_world(self, action: Action, root_timestamp: int):
+        # TODO: Combine and clean
 
-        # Initialize world state from afterwards
-        updated_world_state = {state: frame for state, frame in self.items()
-                               if state > root_timestamp}
+        # Initialize world state from here onwards
+        updated_world_state = {state: frame
+                               for state, frame in self.items()
+                               if state >= root_timestamp}
 
-        # If currently the latest timestamp, create new identical timestamp
-        if not updated_world_state:
-            updated_world_state.update(
-                {root_timestamp+1: self[root_timestamp].dupe()})
+        # Next absolute timestamp value after current root
+        next_timestamp = root_timestamp + 1
+        # Get absolute timestamps where there is an effect
+        all_effect_timestamps = [root_timestamp + t
+                                 for t in action.effect.keys()]
+        # Get timestamp of last effect, or just next_timestamp + 1 if no effects
+        last_effect_timestamp = (max(all_effect_timestamps) + 1
+                                 if all_effect_timestamps
+                                 else next_timestamp + 1)
 
-        # Pop preconditions up till last state in dict
-        for timestamp, new_frame in updated_world_state.items():
-            for cond, value in action.precond.items():
+        # Clone yet-to-exist frames with previous frame
+        for timestamp in range(next_timestamp, last_effect_timestamp):
 
-                updated_world_state[timestamp].update(
-                    {cond: (new_frame[cond] - value)}
+            if timestamp not in updated_world_state.keys():
+                updated_world_state.update(
+                    {timestamp: updated_world_state[timestamp-1].dupe()}
                 )
 
-        # Generate clone states up till last state in effect
+        if action.name == "Do Nothing":
+            self.update(updated_world_state)
+            return  # Terminate early after creating next WorldFrame
 
-        # Push effects recursively up till last state in dict
+        for timestamp in range(next_timestamp, last_effect_timestamp):
 
-        # Calculate offset of all components
+            # Pop the upcoming frame's conditions
+            updated_world_state[timestamp].update({
+                cond: (updated_world_state[timestamp][cond] - value)
+                for cond, value in action.precond.items()
+            })
+
+            # If timestamp has an effect
+            if timestamp in all_effect_timestamps:
+
+                # Get current relative timestamp
+                rel_timestamp = timestamp - root_timestamp
+
+                # Modify or create condition
+                updated_world_state[timestamp].update(
+                    {cond: (updated_world_state[timestamp][cond] + value
+                     if cond in updated_world_state[timestamp] else value)
+                     for cond, value in action.effect[rel_timestamp].items()}
+                )
+
+        print(updated_world_state)
+
         self.update(updated_world_state)
-
-        pass

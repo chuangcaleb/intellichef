@@ -1,11 +1,10 @@
-from abc import ABC, abstractmethod
 import random
+from abc import ABC, abstractmethod
 from typing import List
 
-# from intchef.session import WorldState
-
-
 from .actions import ALL_ACTIONS, Action
+
+# from intchef.session import WorldState
 
 
 class Agent(ABC):
@@ -14,11 +13,11 @@ class Agent(ABC):
     def policy(world_state):
         pass
 
-    def get_legal_actions(self, world_state, timestamp) -> List[Action]:
+    def _get_legal_actions(self, world_state_frame) -> List[Action]:
 
         legal_actions = [
             action for action in ALL_ACTIONS
-            if world_state.meets_precondition(action.precond, timestamp)
+            if world_state_frame.meets_precondition(action.precond)
         ]
 
         return legal_actions
@@ -28,7 +27,7 @@ class RandomAgent(Agent):
 
     def policy(self, world_state, timestamp) -> Action:
 
-        legal_actions = self.get_legal_actions(world_state, timestamp)
+        legal_actions = self._get_legal_actions(world_state[timestamp])
         print('All Legal Actions:\n', legal_actions, end="\n\n")
 
         if len(legal_actions) > 0:
