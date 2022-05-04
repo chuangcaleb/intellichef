@@ -62,8 +62,8 @@ class CookingSession:
 
         world_history = self.world_state.get_history(self.timestamp)
 
-        print("Final world state history:\n")
-        print("\n".join([f"{k}: {v}" for k, v in world_history.items()]))
+        print("Final world state history:")
+        print(self.world_state.get_history(self.timestamp))
         print()
 
         return self.timestamp
@@ -74,7 +74,8 @@ class CookingSession:
         print("\n\n> Time:", green(self.timestamp), "--------------------\n")
 
         # world_state = self._get_world_state(self.world)
-        print("Current world state:\n", self.get_future_states(), end="\n\n")
+        print("Current world state:\n")
+        print(self.world_state.get_future_states(self.timestamp), end="\n\n")
 
         action = self.agent.policy(self.world_state, self.timestamp)
 
@@ -82,8 +83,3 @@ class CookingSession:
             self.world_state.update_world(action, self.timestamp)
         else:
             self.error_msg = "Stuck, no legal actions!"
-
-    def get_future_states(self):
-        return {time: frame
-                for time, frame in self.world_state.items()
-                if time >= self.timestamp}

@@ -64,7 +64,23 @@ class WorldState(Dict):
         # self.itemlist = super(WorldState, self).keys()
 
     def __repr__(self):
-        return "{" + "\n ".join([str(k) + ": " + str(v) for k, v in self.items()]) + "}"
+        return self._pretty_pformat(self)
+
+    def _pretty_pformat(self, dict):
+        return "{" + "\n ".join([str(k) + ": " + str(v)
+                                 for k, v in dict.items()]) + "}"
+
+    # Get world state for >= given time stamp
+    def get_future_states(self, timestamp: int) -> 'WorldState':
+        return self._pretty_pformat({time: frame
+                                     for time, frame in self.items()
+                                     if time >= timestamp})
+
+    # Get world state for <= given time stamp
+    def get_history(self, timestamp: int) -> 'WorldState':
+        return self._pretty_pformat({time: frame
+                                     for time, frame in self.items()
+                                     if time <= timestamp})
 
     def meets_precondition(self, preconditions, timestamp: int) -> bool:
 
@@ -135,8 +151,6 @@ class WorldState(Dict):
                      for comp, val in frame.items()
                      if val == 0]
 
+        # Pop those zero entries
         for frame, comp in zero_list:
             frame.pop(comp)
-
-    def get_history(self, timestamp: int) -> 'WorldState':
-        return {k: v for k, v in self.items() if k <= timestamp}
