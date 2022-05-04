@@ -17,18 +17,20 @@ class Action:
         return red(self.name)
 
 
-ALL_ACTIONS = {
-    Action(
+class ActionList:
+
+    IDLE = Action(
         name="Do Nothing",
         precond={},
         effect={}
-    ),
-    Action(
+    )
+    TOAST_BREAD = Action(
         name="Toast Bread",
         precond={ComponentList.BREAD: 1},
         effect={3: {ComponentList.TOAST: 1}}
-    ),
-    Action(
+    )
+
+    ASSEMBLE_SIMPLE_TOAST_SANDWICH = Action(
         name="Assemble Simple Toast Sandwich",
         precond={
             ComponentList.TOAST: 2,
@@ -37,4 +39,7 @@ ALL_ACTIONS = {
         },
         effect={1: {ComponentList.SIMPLE_TOAST_SANDWICH: 1}}
     )
-}
+
+
+ALL_ACTIONS = [v for k, v in ActionList.__dict__.items()
+               if isinstance(v, Action)]

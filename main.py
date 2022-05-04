@@ -1,6 +1,7 @@
 import sys
 
 import intchef
+from intchef.goap.actions import ALL_ACTIONS, ActionList
 
 
 def run_cooking_session(agent, recipe):
@@ -26,8 +27,9 @@ def main():
     # Run game code n times
     # Init Game
     score = run_cooking_session(agent, recipe)
-
     print("Time taken:", score)
+
+    # print(ALL_ACTIONS)
     # 	get average score
     print()
 
