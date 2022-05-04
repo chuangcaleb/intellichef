@@ -14,11 +14,11 @@ class Agent(ABC):
     def policy(world_state):
         pass
 
-    def get_legal_actions(self, world_state) -> List[Action]:
+    def get_legal_actions(self, world_state, timestamp) -> List[Action]:
 
         legal_actions = [
             action for action in ALL_ACTIONS
-            if world_state.meets_precondition(action.precond)
+            if world_state.meets_precondition(action.precond, timestamp)
         ]
 
         return legal_actions
@@ -26,9 +26,9 @@ class Agent(ABC):
 
 class RandomAgent(Agent):
 
-    def policy(self, world_state) -> Action:
+    def policy(self, world_state, timestamp) -> Action:
 
-        legal_actions = self.get_legal_actions(world_state)
+        legal_actions = self.get_legal_actions(world_state, timestamp)
         print('All Legal Actions:\n', legal_actions, end="\n\n")
 
         if len(legal_actions) > 0:
