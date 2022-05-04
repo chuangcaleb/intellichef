@@ -33,24 +33,23 @@ class CookingSession:
     def _check_end(self) -> bool:
         """ Check if cycle has reached an end condition """
 
-        should_terminate = False
+        if self.timestamp > self.timeout:
+            print(red(f"\n\nExceeded time limit of {self.timeout}!\n"))
+            return True
+
+        if self.error_msg != None:
+            print(red(f"\n\nERROR: {self.error_msg}\n"))
+            return True
 
         # end_condition is when (subset(world state) == goal state @ timestamp)
         if self.world_state.meets_precondition(
                 self.recipe.goal_state, self.timestamp):
-            should_terminate = True
             print(green(
                 f"\n\nSuccessfully made: {self.recipe.display_name}!\n"))
+            return True
 
-        if self.timestamp >= self.timeout:
-            should_terminate = True
-            print(red("\n\nExceeded time limit!\n"))
-
-        if self.error_msg != None:
-            should_terminate = True
-            print(red(f"\n\nERROR: {self.error_msg}\n"))
-
-        return should_terminate
+        # Else, return False
+        return False
 
     def main(self) -> bool:
         """ Main entry method that loops, returns timestamp at termination """
