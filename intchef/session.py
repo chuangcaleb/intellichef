@@ -7,7 +7,7 @@ from .goap.abstract import Recipe
 from .goap.agent import Agent
 from .goap.colors import green, red
 from .goap.world import WorldState
-import pprint as pp
+import operator
 
 
 class CookingSession:
@@ -60,10 +60,8 @@ class CookingSession:
             self.loop()
             self.timestamp += 1
 
-        world_history = self.world_state.get_history(self.timestamp)
-
         print("Final world state history:")
-        print(self.world_state.get_history(self.timestamp))
+        print(self.world_state.get_repr(self.timestamp, operator.le))
         print()
 
         return self.timestamp
@@ -74,8 +72,8 @@ class CookingSession:
         print("\n\n> Time:", green(self.timestamp), "--------------------\n")
 
         # world_state = self._get_world_state(self.world)
-        print("Current world state:\n")
-        print(self.world_state.get_future_states(self.timestamp), end="\n\n")
+        print("Current world state:")
+        print(self.world_state.get_repr(self.timestamp, operator.ge), end="\n\n")
 
         action = self.agent.policy(self.world_state, self.timestamp)
 

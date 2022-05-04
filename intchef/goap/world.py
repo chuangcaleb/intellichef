@@ -1,5 +1,6 @@
 """ World State of the session at any one time, across time dimensions """
 
+import operator
 from typing import Dict
 
 from .actions import Action
@@ -10,7 +11,6 @@ class WorldStateFrame(Dict):
 
     def __init__(self, initial_state: Dict[ComponentList, int], *args, **kw):
         super(WorldStateFrame, self).__init__(initial_state, *args, **kw)
-        # self.itemlist = super(WorldStateFrame, self).keys()
 
     def dupe(self) -> 'WorldStateFrame':
         return WorldStateFrame(self.copy())
@@ -61,7 +61,6 @@ class WorldState(Dict):
 
     def __init__(self, initial_state: Dict[ComponentList, int], *args, **kw):
         super(WorldState, self).__init__({0: initial_state}, *args, **kw)
-        # self.itemlist = super(WorldState, self).keys()
 
     def __repr__(self):
         return self._pretty_pformat(self)
@@ -70,17 +69,10 @@ class WorldState(Dict):
         return "{" + "\n ".join([str(k) + ": " + str(v)
                                  for k, v in dict.items()]) + "}"
 
-    # Get world state for >= given time stamp
-    def get_future_states(self, timestamp: int) -> 'WorldState':
+    def get_repr(self, timestamp: int, ineq_op: operator) -> 'str':
         return self._pretty_pformat({time: frame
                                      for time, frame in self.items()
-                                     if time >= timestamp})
-
-    # Get world state for <= given time stamp
-    def get_history(self, timestamp: int) -> 'WorldState':
-        return self._pretty_pformat({time: frame
-                                     for time, frame in self.items()
-                                     if time <= timestamp})
+                                     if ineq_op(time, timestamp)})
 
     def meets_precondition(self, preconditions, timestamp: int) -> bool:
 
