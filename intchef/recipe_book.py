@@ -19,7 +19,7 @@ class RecipeBook:
             ComponentList.SIMPLE_TOAST_SANDWICH: 1
         }),
         ingredients=WorldState({
-            ComponentList.BREAD: 2,
+            ComponentList.BREAD: 10,
             ComponentList.HAM: 1,
             ComponentList.CHEESE: 1
         })
