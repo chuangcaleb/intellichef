@@ -19,7 +19,7 @@ def main():
     """Main entry point for the script."""
 
     agent_list = intchef.AgentList()
-    agent = agent_list.RANDOM_AGENT
+    agent = agent_list.ACTION_AGENT
 
     recipe_book = intchef.RecipeBook()
     recipe = recipe_book.SIMPLE_TOAST_SANDWICH
