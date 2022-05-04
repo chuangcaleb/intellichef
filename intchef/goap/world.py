@@ -56,19 +56,6 @@ class WorldStateFrame(Dict):
 
         self.update(updated_frame)
 
-    def pop_conditions(self, preconds: Dict):
-        # updated_frame = {}
-
-        # Pop conditions from world state
-        self.update({
-            cond: (self[cond] - preconds[cond])
-            for cond in preconds
-        })
-
-        # print(updated_frame)
-
-        # self.update(updated_frame)
-
 
 class WorldState(Dict):
 
@@ -97,17 +84,12 @@ class WorldState(Dict):
                 {root_timestamp+1: self[root_timestamp].dupe()})
 
         # Pop preconditions up till last state in dict
-        # updated_world_state.update({
-        #     state: old_frame.pop_conditions(action.precond)
-        #     for state, old_frame in updated_world_state.items()
-        # })
+        for timestamp, new_frame in updated_world_state.items():
+            for cond, value in action.precond.items():
 
-        self.update(updated_world_state)
-
-        [
-            self[timestamp].pop_conditions(action.precond)
-            for timestamp, new_frame in updated_world_state.items()
-        ]
+                updated_world_state[timestamp].update(
+                    {cond: (new_frame[cond] - value)}
+                )
 
         # Generate clone states up till last state in effect
 
