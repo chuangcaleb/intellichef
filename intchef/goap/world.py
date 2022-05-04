@@ -13,6 +13,9 @@ class WorldStateFrame(Dict):
         super(WorldStateFrame, self).__init__(initial_state, *args, **kw)
         # self.itemlist = super(WorldStateFrame, self).keys()
 
+    def dupe(self) -> 'WorldStateFrame':
+        return WorldStateFrame(self.copy())
+
     def meets_precondition(self, preconditions) -> bool:
 
         # for precondition in precondition
@@ -91,7 +94,7 @@ class WorldState(Dict):
         # If currently the latest timestamp, create new identical timestamp
         if not updated_world_state:
             updated_world_state.update(
-                {root_timestamp+1: WorldStateFrame(self[root_timestamp].copy())})
+                {root_timestamp+1: self[root_timestamp].dupe()})
 
         # Pop preconditions up till last state in dict
         # updated_world_state.update({
