@@ -45,7 +45,7 @@ class CookingSession:
         if self.world_state.meets_precondition(
                 self.recipe.goal_state, self.timestamp):
             print(green(
-                f"\n\nSuccessfully made: {self.recipe.display_name}!\n"))
+                f"\n\nSuccessfully made: {self.recipe.name}!\n"))
             return True
 
         # Else, return False
