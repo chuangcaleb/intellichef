@@ -4,8 +4,7 @@ Defines all GOAP actions
 
 from typing import Dict
 
-from intchef.goap.abstract import Equipment
-from .colors import red
+from .colors import Colour, colour
 from .components import ComponentList, EquipmentList, IngredientList
 
 
@@ -17,7 +16,7 @@ class Action:
         self.effect = effect
 
     def __repr__(self):
-        return red(self.name)
+        return colour(Colour.PURPLE, self.name)
 
 
 class Condition(Dict):

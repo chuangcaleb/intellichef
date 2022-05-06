@@ -5,7 +5,7 @@ The CookingSession class that handles each GOAP session.
 
 from .goap.abstract import Recipe
 from .goap.agent import Agent
-from .goap.colors import green, red
+from .goap.colors import Colour, colour
 from .goap.world import WorldState
 import operator
 
@@ -34,18 +34,19 @@ class CookingSession:
         """ Check if cycle has reached an end condition """
 
         if self.timestamp > self.timeout:
-            print(red(f"\n\nExceeded time limit of {self.timeout}!\n"))
+            print(colour(Colour.RED,
+                         f"\n\nExceeded time limit of {self.timeout}!\n"))
             return True
 
         if self.error_msg != None:
-            print(red(f"\n\nERROR: {self.error_msg}\n"))
+            print(colour(Colour.RED, f"\n\nERROR: {self.error_msg}\n"))
             return True
 
         # end_condition is when (subset(world state) == goal state @ timestamp)
         if self.world_state.meets_precondition(
                 self.recipe.goal_state, self.timestamp):
-            print(green(
-                f"\n\nSuccessfully made: {self.recipe.name}!\n"))
+            print(colour(Colour.GREEN,
+                         f"\n\nSuccessfully made: {self.recipe.name}!\n"))
             return True
 
         # Else, return False
@@ -69,7 +70,8 @@ class CookingSession:
     def loop(self) -> bool:
         """ Loop method, makes choices every tick """
 
-        print("\n\n> Time:", green(self.timestamp), "--------------------\n")
+        print("\n\n> Time:", colour(Colour.GREEN, self.timestamp),
+              "-------------------------------------------------------------\n")
 
         print("Current world state:")
         print(self.world_state.get_repr(self.timestamp, operator.ge), end="\n\n")

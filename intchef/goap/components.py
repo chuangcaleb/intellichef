@@ -1,7 +1,7 @@
 """
 Definitions of every Component
 """
-from .abstract import Component
+from .abstract import Component, Equipment
 
 
 class IngredientList:
@@ -20,8 +20,8 @@ class ChefList:
 
 class EquipmentList:
 
-    TOASTER = Component("Toaster", "")
-    PAN = Component("Frying Pan", "")
+    TOASTER = Equipment("Toaster")
+    PAN = Equipment("Frying Pan")
 
 
 class ComponentList(IngredientList, ChefList, EquipmentList):

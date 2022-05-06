@@ -1,30 +1,18 @@
 """ Fancy string colors! """
 
-colors = {
-    'green': '\033[92m',
-    'yellow': '\033[93m',
-    'red': '\033[91m',
-    'grey': '\033[90m',
-    'white': '\033[97m',
-    'end': '\033[0m',
-}
+
+class Colour:
+    PURPLE = '\033[95m'
+    CYAN = '\033[96m'
+    DARKCYAN = '\033[36m'
+    BLUE = '\033[94m'
+    GREEN = '\033[92m'
+    YELLOW = '\033[93m'
+    RED = '\033[91m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+    END = '\033[0m'
 
 
-def green(message):
-    return f"{colors['green']}{message}{colors['end']}"
-
-
-def yellow(message):
-    return f"{colors['yellow']}{message}{colors['end']}"
-
-
-def red(message):
-    return f"{colors['red']}{message}{colors['end']}"
-
-
-def grey(message):
-    return f"{colors['grey']}{message}{colors['end']}"
-
-
-def white(message):
-    return f"{colors['white']}{message}{colors['end']}"
+def colour(colour: Colour, message: str) -> str:
+    return f"{colour}{message}{Colour.END}"

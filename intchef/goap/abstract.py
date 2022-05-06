@@ -1,11 +1,11 @@
-""" 
+"""
 Contains the class definitions
 """
 
-from abc import ABC, abstractmethod
+from abc import ABC
 from typing import List
 
-from .colors import green, yellow
+from .colors import Colour, colour
 
 
 class KitchenResource(ABC):
@@ -14,7 +14,9 @@ class KitchenResource(ABC):
         self.name = name
 
     def __repr__(self):
-        return yellow(self.display_name)
+        """ Default representation without colour formatting"""
+        # return colour(Colour.YELLOW, self.display_name)
+        return self.display_name
 
     @property
     def display_name(self):
@@ -46,10 +48,10 @@ class Component(KitchenResource):
 
     def __repr__(self):
         if self.aggrg == None:
-            return yellow(self.display_name)
+            return colour(Colour.YELLOW, self.display_name)
         else:
             return "{}({})".format(
-                yellow(self.display_name),
+                colour(Colour.YELLOW, self.display_name),
                 self.aggrg
             )
 
@@ -58,6 +60,9 @@ class Equipment(KitchenResource):
 
     def __init__(self, name: str):
         super().__init__(name)
+
+    def __repr__(self):
+        return colour(Colour.BLUE, self.display_name)
 
 
 class Recipe(KitchenResource):
@@ -77,10 +82,13 @@ class Recipe(KitchenResource):
         self.goal_state = goal_state
         self.ingredients = initial_state
 
+    def __repr__(self):
+        return colour(Colour.GREEN, self.display_name)
+
     def print_details(self):
 
-        print()
-        print("Recipe for:", green(self.name), "#############################")
+        print("########################################################################\n")
+        print("Recipe for:", colour(Colour.GREEN, self.name))
 
         print("Goal State:", end=" ")
         print(self.goal_state)
