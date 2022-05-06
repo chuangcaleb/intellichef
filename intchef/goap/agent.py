@@ -2,8 +2,8 @@ import random
 from abc import ABC, abstractmethod
 from typing import List
 
-from .actions import ALL_ACTIONS, Action, ActionList
-from .world import WorldState, WorldStateFrame
+from intchef.goap.actions import ALL_ACTIONS, Action, ActionList
+from intchef.goap.world import WorldState, WorldStateFrame
 
 
 class Agent(ABC):

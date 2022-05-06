@@ -1,6 +1,6 @@
-from .goap.world import WorldStateFrame
-from .goap.abstract import Recipe
-from .goap.components import ComponentList, EquipmentList, IngredientList
+from intchef.goap.world import WorldStateFrame
+from intchef.goap.abstract import Recipe
+from intchef.goap.components import ComponentList, EquipmentList, IngredientList
 
 
 class RecipeBook:

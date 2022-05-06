@@ -3,10 +3,10 @@ The CookingSession class definition that handles each GOAP session.
 """
 
 
-from .goap.abstract import Recipe
-from .goap.agent import Agent
+from intchef.goap.abstract import Recipe
+from intchef.goap.agent import Agent
 from colours import Colour, colour
-from .goap.world import WorldState
+from intchef.goap.world import WorldState
 import operator
 
 

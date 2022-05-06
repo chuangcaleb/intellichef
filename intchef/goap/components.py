@@ -1,7 +1,7 @@
 """
 Definitions of every Component
 """
-from .abstract import Component, Equipment
+from intchef.goap.abstract import Component, Equipment
 
 
 class IngredientList:

@@ -3,8 +3,8 @@
 import operator
 from typing import Dict
 
-from .actions import Action, ActionList
-from .components import ComponentList
+from intchef.goap.actions import Action, ActionList
+from intchef.goap.components import ComponentList
 
 
 class WorldStateFrame(Dict):
