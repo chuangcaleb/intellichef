@@ -1,11 +1,11 @@
 """
-The CookingSession class that handles each GOAP session.
+The CookingSession class definition that handles each GOAP session.
 """
 
 
 from .goap.abstract import Recipe
 from .goap.agent import Agent
-from .goap.colors import Colour, colour
+from colours import Colour, colour
 from .goap.world import WorldState
 import operator
 

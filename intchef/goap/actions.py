@@ -4,7 +4,7 @@ Defines all GOAP actions
 
 from typing import Dict
 
-from .colors import Colour, colour
+from colours import Colour, colour
 from .components import ComponentList, EquipmentList, IngredientList
 
 

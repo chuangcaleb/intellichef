@@ -1,11 +1,11 @@
 """
-Contains the class definitions
+Class definitions for Kitchen Resources
 """
 
 from abc import ABC
 from typing import List
 
-from .colors import Colour, colour
+from colours import Colour, colour
 
 
 class KitchenResource(ABC):
