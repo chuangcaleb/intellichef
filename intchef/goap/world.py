@@ -1,10 +1,8 @@
 """ World State of the session at any one time, across time dimensions """
 
+from logging import root
 import operator
-from turtle import update
 from typing import Dict
-
-from matplotlib import offsetbox
 
 from intchef.goap.actions import Action, ActionList
 from intchef.goap.components import ComponentList
@@ -72,6 +70,23 @@ class WorldState(Dict):
         return "{" + "\n ".join([str(k) + ": " + str(v)
                                  for k, v in dict.items()]) + "}"
 
+    def _clean_zero_entries(self):
+
+        # Get list of zero entries
+        zero_list = [(frame, comp)
+                     for frame in self.values()
+                     for comp, val in frame.items()
+                     if val == 0]
+
+        # Pop those zero entries
+        for frame, comp in zero_list:
+            frame.pop(comp)
+
+    def _clone_frame(self, new_timestamp):
+        self.update(
+            {new_timestamp: self[new_timestamp-1].dupe()}
+        )
+
     def get_repr(self, timestamp: int, ineq_op: operator) -> 'str':
         return self._pretty_pformat({time: frame
                                      for time, frame in self.items()
@@ -92,9 +107,8 @@ class WorldState(Dict):
         if action == ActionList.IDLE:  # If choosing to IDLE
 
             if next_timestamp not in self.keys():  # If next frame uncreated
-                self.update(  # Just duplicate the next world state frame
-                    {next_timestamp: self[root_timestamp].dupe()}
-                )
+                # Just clone for the next world state frame
+                self._clone_frame(next_timestamp)
 
             return  # Terminate early either ways
 
@@ -116,9 +130,7 @@ class WorldState(Dict):
                 # Reset offset if duping, since dupe carries the offset already
                 state_frame_offset = {}
                 # For the current frame, dupe from the previous frame
-                self.update(
-                    {timestamp: self[timestamp-1].dupe()}
-                )
+                self._clone_frame(timestamp)
 
             # Pop the upcoming frame's conditions
             if timestamp == next_timestamp:
@@ -144,28 +156,12 @@ class WorldState(Dict):
 
             # Apply offset to current frame
             current_frame_components = self[timestamp].keys()
-            # print(timestamp, current_frame_components)
             for ko, vo in state_frame_offset.items():
 
                 current_world_state = self[timestamp]
-                # if ko in current_frame_components:
-                # print(timestamp, ":", ko, current_world_state[ko], vo)
 
                 # Apply offset to frame, create component if doesn't exist
                 self[timestamp][ko] = current_world_state[ko] + vo \
                     if ko in current_frame_components else vo
 
-        # self.update(updated_world_state)
         self._clean_zero_entries()
-
-    def _clean_zero_entries(self):
-
-        # Get list of zero entries
-        zero_list = [(frame, comp)
-                     for frame in self.values()
-                     for comp, val in frame.items()
-                     if val == 0]
-
-        # Pop those zero entries
-        for frame, comp in zero_list:
-            frame.pop(comp)
