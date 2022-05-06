@@ -76,7 +76,8 @@ class CookingSession:
 
         # Let agent make actions until agent chooses to IDLE
         action_list = self.agent.policy(self.world_state, self.timestamp)
-        self.world_state.update_world(action_list, self.timestamp)
+        for action in action_list:
+            self.world_state.update_world(action, self.timestamp)
         # while action != ActionList.IDLE:
         #     print(self.world_state)
         #     action = self.agent.policy(self.world_state, self.timestamp)

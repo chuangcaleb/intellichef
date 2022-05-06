@@ -96,18 +96,21 @@ class WorldState(Dict):
         return self._pretty_pformat(
             self.get_range(timestamp, ineq_op))
 
-    def dupe(self) -> 'WorldState':
-        return WorldState(self.copy())
+    # def dupe(self) -> 'WorldState':
+    #     return WorldState(self.copy())
+    def get_last_frame(self) -> WorldStateFrame:
+        return self[len(self)-1]
 
     def meets_precondition(self, preconditions, timestamp: int) -> bool:
-        """ Precondition is found in the frame of the next timestamp. We need to cumalatively dirty the next timestamp's frame. """
+        # """ Precondition is found in the frame of the next timestamp. We need to cumalatively dirty the next timestamp's frame. """
 
-        next_timestamp = timestamp + 1
+        # next_timestamp = timestamp + 1
 
-        if timestamp == len(self)-1:  # If timestamp is the last timestamp
-            self._clone_frame(next_timestamp)  # Generate new frame
+        # if timestamp == len(self)-1:  # If timestamp is the last timestamp
+        #     self._clone_frame(next_timestamp)  # Generate new frame
 
-        frame = self[timestamp + 1]  # select next frame
+        # frame = self[timestamp + 1]  # select next frame
+        frame = self[timestamp]
 
         return True if frame.meets_precondition(preconditions) else False
 

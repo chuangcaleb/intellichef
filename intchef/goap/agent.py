@@ -25,16 +25,15 @@ class Agent(ABC):
     def policy(self, world_state: WorldState, timestamp: int) -> Action:
         """ Main policy wrapper, passes legal actions to specific policy """
 
-        world_state_clone = world_state.get_range(timestamp, operator.ge)
+        frame = world_state.get_last_frame
 
         # Grab a list of legal Actions if the current WorldState meets its preconditions
-        legal_actns_seq_set = self._get_legal_actns_seq(world_state[timestamp])
+        legal_actns_seq_set = self._get_legal_actns_seq(frame)
 
         if legal_actns_seq_set:
 
             # Select action according to agent's policy
-            action_list = self.my_policy(
-                world_state_clone, timestamp, legal_actns_seq_set)
+            action_list = self.my_policy(frame, timestamp, legal_actns_seq_set)
 
         # action_list.append(ActionList.IDLE)
 
@@ -45,21 +44,29 @@ class Agent(ABC):
     def _get_legal_actns_seq(self, world_state_frame: WorldStateFrame) -> List[Action]:
         """ Grab a list of legal Actions if the current WorldState meets its preconditions """
 
+        def recursive_legal_check(action_list, frame):
+            return [(a1, recursive_legal_check(a2))
+                    for a1 in action_list
+                    for a2 in action_list
+                    # if a1 meets criteria
+                    # else #FIXME
+                    ]
+
         precond = [
             action for action in ACTIVE_ACTIONS
             if world_state_frame.meets_precondition(action.precond)
         ]
 
+        legal_actions_set = [
+
+        ]
+
         legal_actions_set = set(permutations(precond))
-        legal_actions_set.add(self.IDLE_SEQ)
+        # legal_actions_set.add(self.IDLE_SEQ)
 
         print('All Legal Actions:\n', legal_actions_set, end="\n\n")
 
         return legal_actions_set
-
-    def _get_actions_set(self, world_state_frame: WorldStateFrame) -> List[Action]:
-
-        pass
 
 
 class RandomAgent(Agent):
