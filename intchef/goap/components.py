@@ -4,13 +4,27 @@ Definitions of every Component
 from .abstract import Component
 
 
-class ComponentList:
+class IngredientList:
 
     BREAD = Component("Bread", "slice")
     BUTTER = Component("Butter", "knob")
     HAM = Component("Ham", "slice")
     CHEESE = Component("Cheese", "slice")
     EGG = Component("Egg", "")
+
+
+class ChefList:
+
+    CHEF = Component("Chef", "")
+
+
+class EquipmentList:
+
+    TOASTER = Component("Toaster", "")
+    PAN = Component("Frying Pan", "")
+
+
+class ComponentList(IngredientList, ChefList, EquipmentList):
 
     TOAST = Component("Toast", "slice")
 

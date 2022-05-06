@@ -3,8 +3,10 @@ Defines all GOAP actions
 """
 
 from typing import Dict
+
+from intchef.goap.abstract import Equipment
 from .colors import red
-from .components import ComponentList
+from .components import ComponentList, EquipmentList, IngredientList
 
 
 class Action:
@@ -39,8 +41,10 @@ class ActionList:
     )
     TOAST_BREAD = Action(
         name="Toast Bread",
-        precond=Condition({ComponentList.BREAD: 1}),
-        effect=Effect({3: {ComponentList.TOAST: 1}})
+        precond=Condition({IngredientList.BREAD: 1,
+                           EquipmentList.TOASTER: 1}),
+        effect=Effect({1: {EquipmentList.TOASTER: 1},
+                       3: {ComponentList.TOAST: 1}})
     )
 
     ASSEMBLE_SIMPLE_TOAST_SANDWICH = Action(
@@ -55,10 +59,10 @@ class ActionList:
 
     FRY_EGG = Action(
         name="Fry Egg",
-        precond=Condition({
-            ComponentList.EGG: 1
-        }),
-        effect=Effect({2: {ComponentList.FRIED_EGG: 1}})
+        precond=Condition({ComponentList.EGG: 1,
+                           EquipmentList.PAN: 1}),
+        effect=Effect({1: {EquipmentList.PAN: 1},
+                       2: {ComponentList.FRIED_EGG: 1}})
     )
 
 

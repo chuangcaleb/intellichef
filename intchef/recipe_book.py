@@ -1,6 +1,6 @@
 from .goap.world import WorldStateFrame
 from .goap.abstract import Recipe
-from .goap.components import ComponentList
+from .goap.components import ComponentList, EquipmentList, IngredientList
 
 
 class RecipeBook:
@@ -9,8 +9,9 @@ class RecipeBook:
         goal_state=WorldStateFrame({
             ComponentList.TOAST: 1
         }),
-        ingredients=WorldStateFrame({
-            ComponentList.BREAD: 1
+        initial_state=WorldStateFrame({
+            IngredientList.BREAD: 1,
+            EquipmentList.TOASTER: 1
         })
     )
 
@@ -18,10 +19,10 @@ class RecipeBook:
         goal_state=WorldStateFrame({
             ComponentList.SIMPLE_TOAST_SANDWICH: 1
         }),
-        ingredients=WorldStateFrame({
-            ComponentList.BREAD: 3,
-            ComponentList.HAM: 1,
-            ComponentList.CHEESE: 1
+        initial_state=WorldStateFrame({
+            IngredientList.BREAD: 3,
+            IngredientList.HAM: 1,
+            IngredientList.CHEESE: 1
         })
     )
 
@@ -29,7 +30,8 @@ class RecipeBook:
         goal_state=WorldStateFrame({
             ComponentList.FRIED_EGG: 1
         }),
-        ingredients=WorldStateFrame({
-            ComponentList.EGG: 1
+        initial_state=WorldStateFrame({
+            IngredientList.EGG: 1,
+            EquipmentList.PAN: 1
         })
     )

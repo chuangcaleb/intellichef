@@ -65,7 +65,7 @@ class Recipe(KitchenResource):
     def __init__(
         self,
         goal_state: List[Component],
-        ingredients: List[Component],
+        initial_state: List[Component],
         name: str = None,
     ):
 
@@ -75,7 +75,7 @@ class Recipe(KitchenResource):
             super().__init__(list(goal_state)[0].name)
 
         self.goal_state = goal_state
-        self.ingredients = ingredients
+        self.ingredients = initial_state
 
     def print_details(self):
 
