@@ -23,8 +23,6 @@ def main():
     recipe_book = intchef.RecipeBook()
     recipe = recipe_book.TOAST
 
-    print(recipe)
-
     # Run game code n times
     # Init Game
     score = run_cooking_session(agent, recipe)

@@ -1,7 +1,10 @@
 """ World State of the session at any one time, across time dimensions """
 
 import operator
+from turtle import update
 from typing import Dict
+
+from matplotlib import offsetbox
 
 from intchef.goap.actions import Action, ActionList
 from intchef.goap.components import ComponentList
@@ -83,14 +86,19 @@ class WorldState(Dict):
     def update_world(self, action: Action, root_timestamp: int):
         # TODO: Combine and clean
 
-        # Initialize world state from here onwards
-        updated_world_state = {state: frame
-                               for state, frame in self.items()
-                               if state >= root_timestamp}
-
         # Next absolute timestamp value after current root
         next_timestamp = root_timestamp + 1
-        # Get absolute timestamps where there is an effect
+
+        if action == ActionList.IDLE:  # If choosing to IDLE
+
+            if next_timestamp not in self.keys():  # If next frame uncreated
+                self.update(  # Just duplicate the next world state frame
+                    {next_timestamp: self[root_timestamp].dupe()}
+                )
+
+            return  # Terminate early either ways
+
+        # Get absolute timestamps when there is an effect to apply
         all_effect_timestamps = [root_timestamp + t
                                  for t in action.effect.keys()]
         # Get timestamp of last effect, or just next_timestamp + 1 if no effects
@@ -98,25 +106,27 @@ class WorldState(Dict):
                                  if all_effect_timestamps
                                  else next_timestamp + 1)
 
-        # Clone yet-to-exist frames with previous frame
+        max_timestamp = len(self)
+        state_frame_offset = {}
+
         for timestamp in range(next_timestamp, last_effect_timestamp):
 
-            if timestamp not in updated_world_state.keys():
-                updated_world_state.update(
-                    {timestamp: updated_world_state[timestamp-1].dupe()}
+            # Create frames if not already existent
+            if timestamp >= max_timestamp:
+                # Reset offset if duping, since dupe carries the offset already
+                state_frame_offset = {}
+                # For the current frame, dupe from the previous frame
+                self.update(
+                    {timestamp: self[timestamp-1].dupe()}
                 )
 
-        if action == ActionList.IDLE:
-            self.update(updated_world_state)
-            return  # Terminate early after creating next WorldFrame
-
-        for timestamp in range(next_timestamp, last_effect_timestamp):
-
             # Pop the upcoming frame's conditions
-            updated_world_state[timestamp].update({
-                cond: (updated_world_state[timestamp][cond] - value)
-                for cond, value in action.precond.items()
-            })
+            if timestamp == next_timestamp:
+                state_frame_offset.update({
+                    cond: (self[timestamp][cond] - value)
+                    if cond in state_frame_offset else -value
+                    for cond, value in action.precond.items()
+                })
 
             # If timestamp has an effect
             if timestamp in all_effect_timestamps:
@@ -125,14 +135,27 @@ class WorldState(Dict):
                 rel_timestamp = timestamp - root_timestamp
 
                 # Modify or create condition
-                updated_world_state[timestamp].update(
-                    {cond: (updated_world_state[timestamp][cond] + value
-                     if cond in updated_world_state[timestamp] else value)
+                state_frame_offset.update(
+                    {cond: (state_frame_offset[cond] + value
+                     if cond in state_frame_offset.keys()
+                     else value)
                      for cond, value in action.effect[rel_timestamp].items()}
                 )
 
-        # print(updated_world_state)
-        self.update(updated_world_state)
+            # Apply offset to current frame
+            current_frame_components = self[timestamp].keys()
+            # print(timestamp, current_frame_components)
+            for ko, vo in state_frame_offset.items():
+
+                current_world_state = self[timestamp]
+                # if ko in current_frame_components:
+                # print(timestamp, ":", ko, current_world_state[ko], vo)
+
+                # Apply offset to frame, create component if doesn't exist
+                self[timestamp][ko] = current_world_state[ko] + vo \
+                    if ko in current_frame_components else vo
+
+        # self.update(updated_world_state)
         self._clean_zero_entries()
 
     def _clean_zero_entries(self):

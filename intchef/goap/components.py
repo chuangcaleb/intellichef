@@ -20,7 +20,7 @@ class ChefList:
 
 class EquipmentList:
 
-    TOASTER = Equipment("Toaster")
+    TOASTER_SLOT = Equipment("Toaster Slot")
     PAN = Equipment("Frying Pan")
 
 

@@ -38,12 +38,17 @@ class ActionList:
         precond=Condition({}),
         effect=Effect({})
     )
+
     TOAST_BREAD = Action(
         name="Toast Bread",
+
         precond=Condition({IngredientList.BREAD: 1,
-                           EquipmentList.TOASTER: 1}),
-        effect=Effect({1: {EquipmentList.TOASTER: 1},
-                       3: {ComponentList.TOAST: 1}})
+                           EquipmentList.TOASTER_SLOT: 1}),
+
+        effect=Effect(
+            {3: {ComponentList.TOAST: 1,
+                 EquipmentList.TOASTER_SLOT: 1}}
+        )
     )
 
     ASSEMBLE_SIMPLE_TOAST_SANDWICH = Action(

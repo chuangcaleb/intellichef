@@ -35,7 +35,7 @@ class CookingSession:
 
         if self.timestamp > self.timeout:
             print(colour(Colour.RED,
-                         f"\n\nExceeded time limit of {self.timeout}!\n"))
+                         f"\n\nTimed out, exceeded time limit of {self.timeout}!\n"))
             return True
 
         if self.error_msg != None:

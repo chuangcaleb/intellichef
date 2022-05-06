@@ -11,7 +11,7 @@ class RecipeBook:
         }),
         initial_state=WorldStateFrame({
             IngredientList.BREAD: 1,
-            EquipmentList.TOASTER: 1
+            EquipmentList.TOASTER_SLOT: 1
         })
     )
 
@@ -20,9 +20,10 @@ class RecipeBook:
             ComponentList.SIMPLE_TOAST_SANDWICH: 1
         }),
         initial_state=WorldStateFrame({
-            IngredientList.BREAD: 3,
+            IngredientList.BREAD: 2,
             IngredientList.HAM: 1,
-            IngredientList.CHEESE: 1
+            IngredientList.CHEESE: 1,
+            EquipmentList.TOASTER_SLOT: 2
         })
     )
 
