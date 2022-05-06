@@ -4,6 +4,7 @@ The CookingSession class definition that handles each GOAP session.
 
 
 from intchef.goap.abstract import Recipe
+from intchef.goap.actions import ActionList
 from intchef.goap.agent import Agent
 from colours import Colour, colour
 from intchef.goap.world import WorldState
@@ -73,8 +74,13 @@ class CookingSession:
         print("\n\n> Time:", colour(Colour.GREEN, self.timestamp),
               "-------------------------------------------------------------\n")
 
-        print("Current world state:")
-        print(self.world_state.get_repr(self.timestamp, operator.ge), end="\n\n")
+        # Let agent make actions until agent chooses to IDLE
+        action_list = self.agent.policy(self.world_state, self.timestamp)
+        self.world_state.update_world(action_list, self.timestamp)
+        # while action != ActionList.IDLE:
+        #     print(self.world_state)
+        #     action = self.agent.policy(self.world_state, self.timestamp)
+        #     break
 
-        action = self.agent.policy(self.world_state, self.timestamp)
-        self.world_state.update_world(action, self.timestamp)
+        print("New world state from current timestamp:")
+        print(self.world_state.get_repr(self.timestamp, operator.ge), end="\n\n")

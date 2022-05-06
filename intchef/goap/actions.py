@@ -70,5 +70,6 @@ class ActionList:
     )
 
 
-ALL_ACTIONS = [v for v in ActionList.__dict__.values()
-               if isinstance(v, Action)]
+ACTIVE_ACTIONS = [v for v in ActionList.__dict__.values()
+                  if isinstance(v, Action)
+                  if v is not ActionList.IDLE]  # Except IDLE
