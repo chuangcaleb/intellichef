@@ -87,14 +87,24 @@ class WorldState(Dict):
             {new_timestamp: self[new_timestamp-1].dupe()}
         )
 
+    def _get_range(self, timestamp: int, ineq_op: operator) -> 'WorldState':
+        return {time: frame
+                for time, frame in self.items()
+                if ineq_op(time, timestamp)}
+
     def get_repr(self, timestamp: int, ineq_op: operator) -> 'str':
-        return self._pretty_pformat({time: frame
-                                     for time, frame in self.items()
-                                     if ineq_op(time, timestamp)})
+        return self._pretty_pformat(
+            self._get_range(timestamp, ineq_op))
 
     def meets_precondition(self, preconditions, timestamp: int) -> bool:
+        """ Precondition is found in the frame of the next timestamp. We need to cumalatively dirty the next timestamp's frame. """
 
-        frame = self[timestamp]
+        next_timestamp = timestamp + 1
+
+        if timestamp == len(self)-1:  # If timestamp is the last timestamp
+            self._clone_frame(next_timestamp)  # Generate new frame
+
+        frame = self[timestamp + 1]  # select next frame
 
         return True if frame.meets_precondition(preconditions) else False
 
