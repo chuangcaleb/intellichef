@@ -71,13 +71,8 @@ class CookingSession:
 
         print("\n\n> Time:", green(self.timestamp), "--------------------\n")
 
-        # world_state = self._get_world_state(self.world)
         print("Current world state:")
         print(self.world_state.get_repr(self.timestamp, operator.ge), end="\n\n")
 
         action = self.agent.policy(self.world_state, self.timestamp)
-
-        if action:
-            self.world_state.update_world(action, self.timestamp)
-        else:
-            self.error_msg = "Stuck, no legal actions!"
+        self.world_state.update_world(action, self.timestamp)

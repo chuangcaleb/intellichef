@@ -17,9 +17,11 @@ class ComponentList:
         "Simple Toast Sandwich",
         counter="",
         # state="buttered",
-        aggrg={
-            TOAST: 2,
-            HAM: 1,
-            CHEESE: 1
-        }
+        # aggrg={
+        #     TOAST: 2,
+        #     HAM: 1,
+        #     CHEESE: 1
+        # }
     )
+
+    

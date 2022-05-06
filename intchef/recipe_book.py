@@ -1,5 +1,5 @@
 from .goap.world import WorldStateFrame
-from .goap.abstract import Component, Recipe
+from .goap.abstract import Recipe
 from .goap.components import ComponentList
 
 

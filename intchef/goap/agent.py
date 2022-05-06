@@ -17,20 +17,14 @@ class Agent(ABC):
         pass
 
     def policy(self, world_state: WorldState, timestamp: int) -> Action:
-        """ Main policy wrapper, handles if no legal actions and then runs specific policy """
+        """ Main policy wrapper, passes legal actions to specific policy """
 
         # Grab a list of legal Actions if the current WorldState meets its preconditions
         legal_actions = self._get_legal_actions(world_state[timestamp])
 
-        if legal_actions:  # If there are any legal actions
-
-            # Select action according to agent's policy
-            action = self.my_policy(world_state, timestamp, legal_actions)
-            print(type(self).__name__, "chooses:", action, end="\n\n")
-
-        else:  # If no action in legal_actions, return None
-
-            action = None
+        # Select action according to agent's policy
+        action = self.my_policy(world_state, timestamp, legal_actions)
+        print(type(self).__name__, "chooses:", action, end="\n\n")
 
         return action
 
