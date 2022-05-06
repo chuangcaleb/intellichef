@@ -10,6 +10,7 @@ class ComponentList:
     BUTTER = Component("Butter", "knob")
     HAM = Component("Ham", "slice")
     CHEESE = Component("Cheese", "slice")
+    EGG = Component("Egg", "")
 
     TOAST = Component("Toast", "slice")
 
@@ -24,4 +25,4 @@ class ComponentList:
         # }
     )
 
-    
+    FRIED_EGG = Component("Fried Egg", "")

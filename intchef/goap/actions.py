@@ -53,6 +53,14 @@ class ActionList:
         effect=Effect({1: {ComponentList.SIMPLE_TOAST_SANDWICH: 1}})
     )
 
+    FRY_EGG = Action(
+        name="Fry Egg",
+        precond=Condition({
+            ComponentList.EGG: 1
+        }),
+        effect=Effect({2: {ComponentList.FRIED_EGG: 1}})
+    )
+
 
 ALL_ACTIONS = [v for v in ActionList.__dict__.values()
                if isinstance(v, Action)]

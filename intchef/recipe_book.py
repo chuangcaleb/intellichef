@@ -24,3 +24,12 @@ class RecipeBook:
             ComponentList.CHEESE: 1
         })
     )
+
+    FRIED_EGG = Recipe(
+        goal_state=WorldStateFrame({
+            ComponentList.FRIED_EGG: 1
+        }),
+        ingredients=WorldStateFrame({
+            ComponentList.EGG: 1
+        })
+    )
