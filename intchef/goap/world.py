@@ -3,7 +3,7 @@
 import operator
 from typing import Dict
 
-from .actions import Action
+from .actions import Action, ActionList
 from .components import ComponentList
 
 
@@ -106,7 +106,7 @@ class WorldState(Dict):
                     {timestamp: updated_world_state[timestamp-1].dupe()}
                 )
 
-        if action.name == "Do Nothing":
+        if action == ActionList.IDLE:
             self.update(updated_world_state)
             return  # Terminate early after creating next WorldFrame
 
