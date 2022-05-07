@@ -141,13 +141,13 @@ class WorldState(Dict):
                                  if all_effect_timestamps
                                  else next_timestamp + 1)
 
-        max_timestamp = len(self)
+        max_timestamp = max(self._last_timestamp+1, last_effect_timestamp)
         state_frame_offset = {}
 
-        for timestamp in range(next_timestamp, last_effect_timestamp):
+        for timestamp in range(next_timestamp, max_timestamp):
 
             # Create frames if not already existent
-            if timestamp >= max_timestamp:
+            if timestamp > self._last_timestamp:
                 # Reset offset if duping, since dupe carries the offset already
                 state_frame_offset = {}
                 # For the current frame, dupe from the previous frame

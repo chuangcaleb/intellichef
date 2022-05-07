@@ -69,6 +69,29 @@ class ActionList:
             ComponentList.SIMPLE_TOAST_SANDWICH: 1}})
     )
 
+    WASH_RICE = Action(
+        name="Wash Rice",
+        precond=Condition({
+            IngredientList.RAW_RICE: 1,
+            EquipmentList.POT: 1
+        }),
+        effect=Effect({
+            2: {ComponentList.WASHED_RICE: 1,
+                EquipmentList.POT: 1}
+        })
+    )
+
+    COOK_RICE = Action(
+        name="Cook Rice",
+        precond=Condition({
+            ComponentList.WASHED_RICE: 1,
+            EquipmentList.RICE_COOKER: 1
+        }),
+        effect=Effect({
+            10: {ComponentList.RICE: 1, EquipmentList.RICE_COOKER: 1}
+        })
+    )
+
     FRY_EGG = Action(
         name="Fry Egg",
         precond=Condition({
@@ -91,7 +114,7 @@ class ActionList:
             EquipmentList.KNIFE: 1,
             EquipmentList.BOARD: 1
         }),
-        effect=Effect({2: {
+        effect=Effect({1: {
             # ChefList.CHEF: 1,
             ComponentList.RAW_CHICKEN_FILLET: 1,
             EquipmentList.KNIFE: 1,
@@ -106,7 +129,7 @@ class ActionList:
             ComponentList.RAW_CHICKEN_FILLET: 1,
             EquipmentList.PAN: 1
         }),
-        effect=Effect({2: {
+        effect=Effect({3: {
             # ChefList.CHEF: 1,
             ComponentList.FRIED_CHICKEN_FILLET: 1,
             EquipmentList.PAN: 1

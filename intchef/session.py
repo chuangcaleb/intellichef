@@ -13,7 +13,7 @@ import operator
 class CookingSession:
     """ An object to handle one entire cooking session. """
 
-    def __init__(self, agent: Agent, recipe: Recipe, timeout: int = 10):
+    def __init__(self, agent: Agent, recipe: Recipe, timeout: int = 15):
         """Initializes a cooking session"""
 
         self.timestamp: int = 0  # init: no time elapsed

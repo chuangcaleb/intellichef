@@ -52,3 +52,21 @@ class RecipeBook:
             IngredientList.RAW_CHICKEN_THIGH: 1,
         })
     )
+
+    CHICKEN_FILLET_RICE = Recipe(
+        name="Chicken Fillet Meal",
+        goal_state=WorldStateFrame({
+            ComponentList.FRIED_CHICKEN_FILLET: 1,
+            ComponentList.RICE: 1
+        }),
+        initial_state=WorldStateFrame({
+            # ChefList.CHEF: 1,
+            EquipmentList.PAN: 1,
+            EquipmentList.KNIFE: 1,
+            EquipmentList.RICE_COOKER: 1,
+            EquipmentList.POT: 1,
+            EquipmentList.BOARD: 1,
+            IngredientList.RAW_CHICKEN_THIGH: 1,
+            IngredientList.RAW_RICE: 1,
+        })
+    )

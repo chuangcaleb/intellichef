@@ -15,6 +15,8 @@ class EquipmentList:
     PAN = Equipment("Frying Pan")
     KNIFE = Equipment("Knife")
     BOARD = Equipment("Chopping Board")
+    POT = Equipment("Pot")
+    RICE_COOKER = Equipment("Rice Cooker")
 
 
 class IngredientList:
@@ -24,12 +26,14 @@ class IngredientList:
     HAM = Component("Ham", "slice")
     CHEESE = Component("Cheese", "slice")
     EGG = Component("Egg", "")
-    RAW_CHICKEN_THIGH = Component("Chicken Thigh", "")
+    RAW_CHICKEN_THIGH = Component("Raw Chicken Thigh", "")
+    RAW_RICE = Component("Raw Rice", "")
 
 
 class ComponentList(IngredientList, ChefList, EquipmentList):
 
     TOAST = Component("Toast", "slice")
+    RICE = Component("Rice", "")
 
     SIMPLE_TOAST_SANDWICH = Component(
         "Simple Toast Sandwich",
@@ -43,6 +47,9 @@ class ComponentList(IngredientList, ChefList, EquipmentList):
     )
 
     FRIED_EGG = Component("Fried Egg", "")
+
+    WASHED_RICE = Component("Washed Rice", "")
+    RICE = Component("Rice", "")
 
     RAW_CHICKEN_FILLET = Component("Raw Chicken Fillet", "")
 
