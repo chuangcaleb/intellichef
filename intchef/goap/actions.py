@@ -43,37 +43,40 @@ class ActionList:
         name="Toast Bread",
 
         precond=Condition({
-            ChefList.CHEF: 1,
+            # ChefList.CHEF: 1,
             EquipmentList.TOASTER_SLOT: 1,
             IngredientList.BREAD: 1
         }),
 
-        effect=Effect({1: {ChefList.CHEF: 1},
-                       3: {ComponentList.TOAST: 1,
-                           EquipmentList.TOASTER_SLOT: 1}})
+        effect=Effect({
+            # 1: {ChefList.CHEF: 1},
+            3: {ComponentList.TOAST: 1,
+                EquipmentList.TOASTER_SLOT: 1}}
+        )
     )
 
     ASSEMBLE_SIMPLE_TOAST_SANDWICH = Action(
         name="Assemble Simple Toast Sandwich",
         precond=Condition({
-            ChefList.CHEF: 1,
+            # ChefList.CHEF: 1,
             ComponentList.TOAST: 2,
             ComponentList.HAM: 1,
             ComponentList.CHEESE: 1
         }),
-        effect=Effect({1: {ChefList.CHEF: 1,
-                           ComponentList.SIMPLE_TOAST_SANDWICH: 1}})
+        effect=Effect({1: {
+            # ChefList.CHEF: 1,
+            ComponentList.SIMPLE_TOAST_SANDWICH: 1}})
     )
 
     FRY_EGG = Action(
         name="Fry Egg",
         precond=Condition({
-            ChefList.CHEF: 1,
+            # ChefList.CHEF: 1,
             ComponentList.EGG: 1,
             EquipmentList.PAN: 1
         }),
         effect=Effect({2: {
-            ChefList.CHEF: 1,
+            # ChefList.CHEF: 1,
             EquipmentList.PAN: 1,
             ComponentList.FRIED_EGG: 1
         }})
