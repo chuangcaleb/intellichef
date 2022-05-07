@@ -62,7 +62,8 @@ class CookingSession:
             self.timestamp += 1
 
         print("Final world state history:")
-        print(self.world_state.get_repr(self.timestamp, operator.le))
+        print(self.world_state.get_repr(
+            self.timestamp, operator.le, action_h=True))
         print()
 
         return self.timestamp

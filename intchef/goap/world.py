@@ -1,6 +1,5 @@
 """ World State of the session at any one time, across time dimensions """
 
-from logging import root
 import operator
 from typing import Dict
 
@@ -62,13 +61,34 @@ class WorldState(Dict):
 
     def __init__(self, initial_state: Dict[ComponentList, int], *args, **kw):
         super(WorldState, self).__init__({0: initial_state}, *args, **kw)
+        self.action_hist = {}
 
     def __repr__(self):
         return self._pretty_pformat(self)
 
-    def _pretty_pformat(self, dict):
-        return "{" + "\n ".join([str(k) + ": " + str(v)
-                                 for k, v in dict.items()]) + "}"
+    def _pretty_pformat(self, states, actions=None):
+        if actions == None:
+            return "{" + "\n ".join([str(k) + ": " + str(v)
+                                     for k, v in states.items()]) + "}"
+        else:
+            action_timestamps = actions.keys()
+            return "{" + "\n ".join([
+
+                # The timestamp and frame
+                f"{ks}: {f}" +
+
+                # The arrow indicator if
+                ("\n -> " if ks != self._last_timestamp else "") +
+
+                (str(actions[ks]) if ks in action_timestamps else "")
+
+                for ks, f in states.items()
+
+            ]) + "}"
+
+    @property
+    def _last_timestamp(self):
+        return len(self) - 1
 
     def _clean_zero_entries(self):
 
@@ -87,10 +107,11 @@ class WorldState(Dict):
             {new_timestamp: self[new_timestamp-1].dupe()}
         )
 
-    def get_repr(self, timestamp: int, ineq_op: operator) -> 'str':
+    def get_repr(self, timestamp: int, ineq_op: operator, action_h=False) -> 'str':
         return self._pretty_pformat({time: frame
                                      for time, frame in self.items()
-                                     if ineq_op(time, timestamp)})
+                                     if ineq_op(time, timestamp)},
+                                    self.action_hist if action_h else None)
 
     def meets_precondition(self, preconditions, timestamp: int) -> bool:
 
@@ -111,6 +132,8 @@ class WorldState(Dict):
                 self._clone_frame(next_timestamp)
 
             return  # Terminate early either ways
+
+        self.action_hist.update({root_timestamp: action})
 
         # Get absolute timestamps when there is an effect to apply
         all_effect_timestamps = [root_timestamp + t
