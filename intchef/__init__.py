@@ -1,4 +1,4 @@
-from intchef.session import CookingSession
+from intchef.goap.abstract import Recipe
+from intchef.goap.agent import Agent, AgentList
 from intchef.recipe_book import RecipeBook
-from intchef.goap.agent import AgentList
-# from intchef.goap.actions import ActionList, ALL_ACTIONS
+from intchef.session import CookingSession

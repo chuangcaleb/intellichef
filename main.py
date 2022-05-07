@@ -1,3 +1,4 @@
+import statistics
 import sys
 
 import intchef
@@ -11,7 +12,22 @@ def run_cooking_session(agent, recipe):
     """
     session = intchef.CookingSession(agent, recipe)
     score = session.main()
+    print(f"Time taken: {score}\n\n")
     return score
+
+
+def run_n_sessions(agent, recipe, n_iter: int):
+
+    all_scores = []
+
+    for _ in range(1, n_iter):
+        score = run_cooking_session(agent, recipe)
+        all_scores.append(score)
+
+    avg_score = statistics.mean(all_scores)
+
+    print(f"{recipe} with {agent} over {n_iter} iterations:")
+    print(f"Avg Score: {avg_score:.3f}")
 
 
 def main():
@@ -23,14 +39,8 @@ def main():
     recipe_book = intchef.RecipeBook()
     recipe = recipe_book.CHICKEN_FILLET_RICE
 
-    # Run game code n times
-    # Init Game
-    score = run_cooking_session(agent, recipe)
-    print("Time taken:", score)
-
-    # print(ALL_ACTIONS)
-    # 	get average score
-    print()
+    # run_n_sessions(agent, recipe, n_iter=100)
+    run_cooking_session(agent, recipe)
 
 
 if __name__ == '__main__':

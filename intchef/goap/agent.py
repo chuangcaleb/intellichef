@@ -1,6 +1,7 @@
 import random
 from abc import ABC, abstractmethod
 from typing import List
+from colours import Colour, colour
 
 from intchef.goap.actions import ALL_ACTIONS, Action, ActionList
 from intchef.goap.world import WorldState, WorldStateFrame
@@ -52,6 +53,9 @@ class RandomAgent(Agent):
 
 
 class ActionAgent(Agent):
+
+    def __repr__(self):
+        return colour(Colour.PURPLE, self.__class__.__name__)
 
     def my_policy(self,
                   world_state: WorldState,
