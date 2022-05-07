@@ -13,24 +13,22 @@ class WorldStateFrame(Dict):
         super(WorldStateFrame, self).__init__(initial_state, *args, **kw)
 
     def dupe(self) -> 'WorldStateFrame':
-        return copy.deepcopy(self)
-        # return WorldStateFrame(self.copy())
+        # return copy.deepcopy(self)
+        return WorldStateFrame(self.copy())
 
     def meets_precondition(self, preconditions) -> bool:
 
-        # for precondition in precondition
-        for condition, value in preconditions.items():
+        # for component,value pair in precondition
+        for component, value in preconditions.items():
 
             if (
-                # if world state has item
-                (condition in self.keys()) and
-                # and also in enough quantity
-                (self[condition] >= value)
+                (component in self.keys())  # if world state has item and
+                and (self[component] >= value)  # and also in enough quantity
             ):
                 pass
 
             else:
-                # print(self, preconditions)
+
                 return False  # If it fails at all, instantly return False
 
         return True  # If it never fails, return True
@@ -60,9 +58,13 @@ class WorldStateFrame(Dict):
 
 class WorldState(Dict):
 
-    def __init__(self, initial_state: Dict[ComponentList, int], *args, **kw):
-        super(WorldState, self).__init__({0: initial_state}, *args, **kw)
-        self.action_hist = {}
+    def __init__(self, initial_state: Dict[ComponentList, int], action_hist=None, *args, **kw):
+        super(WorldState, self).__init__(initial_state, *args, **kw)
+
+        if action_hist == None:
+            self.action_hist = {}
+        else:
+            self.action_hist = action_hist
 
     def __repr__(self):
         return self._pretty_pformat(self, actions_h=True)
@@ -107,7 +109,10 @@ class WorldState(Dict):
         )
 
     def dupe(self) -> 'WorldState':
-        return copy.deepcopy(self)
+        # we can't deepcopy, because it also creates new references to constants
+        # we want a deep copied Frame object with the shallow copied Components
+        return WorldState({key: frame.dupe() for key, frame in self.items()},
+                          self.action_hist.copy())
 
     @property
     def clean_action_hist(self):

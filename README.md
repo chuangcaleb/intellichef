@@ -57,7 +57,9 @@ A reasonable backwards heuristic function could be the amount of time an action 
 
 ### Study
 
-This study aims to see if there's a difference in optimizing total time elapsed vs total time spent active.
+This study aims to see if there's a difference in optimizing total time elapsed vs total time spent active. (whole steps until reaching goal? Varying h(n) scaling?)
+
+Including current till future or entire past to future
 
 <!-- After working, some agents will also need to rest. -->
 ## Getting Started <a name = "getting_started"></a>

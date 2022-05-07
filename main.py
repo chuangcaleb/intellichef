@@ -17,6 +17,7 @@ def run_cooking_session(agent, recipe, timeout):
     if debug_msg:
         print(f"Failed: {debug_msg}")
     print("\n\n")
+
     return score, debug_msg
 
 
@@ -43,14 +44,17 @@ def run_n_sessions(agent, recipe, timeout, n_iter: int):
 def main():
     """Main entry point for the script."""
 
-    agent_list = intchef.AgentList()
+    recipe_book = intchef.RecipeBook()
+    recipe = recipe_book.CHICKEN_FILLET_MEAL
+
+    agent_list = intchef.agent.AgentList()
     agent = agent_list.ACTION_AGENT
 
-    recipe_book = intchef.RecipeBook()
-    recipe = recipe_book.CHICKEN_FILLET_RICE
+    timeout = 3
+    agent = intchef.agent.BruteForceAgent(recipe, timeout)
 
-    run_n_sessions(agent, recipe, n_iter=100, timeout=15)
-    # run_cooking_session(agent, recipe)
+    # run_n_sessions(agent, recipe, n_iter=100, timeout=15)
+    run_cooking_session(agent, recipe, timeout)
 
 
 if __name__ == '__main__':

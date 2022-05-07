@@ -53,7 +53,7 @@ class RecipeBook:
         })
     )
 
-    CHICKEN_FILLET_RICE = Recipe(
+    CHICKEN_FILLET_MEAL = Recipe(
         name="Chicken Fillet Meal",
         goal_state=WorldStateFrame({
             ComponentList.FRIED_CHICKEN_FILLET: 1,
