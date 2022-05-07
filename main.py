@@ -33,6 +33,8 @@ def run_n_sessions(agent, recipe, timeout, n_iter: int):
         else:
             all_scores.append(score)
 
+    print(Counter(all_scores))
+
     avg_score = statistics.mean(all_scores)
     debug_stats = Counter(debug_list)
 
@@ -47,13 +49,12 @@ def main():
     recipe_book = intchef.RecipeBook()
     recipe = recipe_book.CHICKEN_FILLET_MEAL
 
-    agent_list = intchef.agent.AgentList()
-    agent = agent_list.ACTION_AGENT
+    # agent = intchef.agent.ActionAgent()
 
-    timeout = 3
+    timeout = 12
     agent = intchef.agent.BruteForceAgent(recipe, timeout)
 
-    # run_n_sessions(agent, recipe, n_iter=100, timeout=15)
+    # run_n_sessions(agent, recipe, n_iter=100, timeout=20)
     run_cooking_session(agent, recipe, timeout)
 
 
