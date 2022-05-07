@@ -66,6 +66,11 @@ class ActionAgent(Agent):
         return random.choice(tuple(legal_actions))
 
 
+def ADIAgent(Agent):
+    """ Autodidactic Iteration """
+    pass
+
+
 class AgentList:
     """ List of all possible default agents as constants """
 
