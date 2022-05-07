@@ -21,7 +21,7 @@ def main():
     agent = agent_list.ACTION_AGENT
 
     recipe_book = intchef.RecipeBook()
-    recipe = recipe_book.SIMPLE_TOAST_SANDWICH
+    recipe = recipe_book.FRIED_EGG
 
     # Run game code n times
     # Init Game

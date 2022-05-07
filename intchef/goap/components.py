@@ -1,7 +1,18 @@
 """
 Definitions of every Component
 """
-from intchef.goap.abstract import Component, Equipment
+from intchef.goap.abstract import Chef, Component, Equipment
+
+
+class ChefList:
+
+    CHEF = Chef("Chef")
+
+
+class EquipmentList:
+
+    TOASTER_SLOT = Equipment("Toaster Slot")
+    PAN = Equipment("Frying Pan")
 
 
 class IngredientList:
@@ -11,17 +22,6 @@ class IngredientList:
     HAM = Component("Ham", "slice")
     CHEESE = Component("Cheese", "slice")
     EGG = Component("Egg", "")
-
-
-class ChefList:
-
-    CHEF = Component("Chef", "")
-
-
-class EquipmentList:
-
-    TOASTER_SLOT = Equipment("Toaster Slot")
-    PAN = Equipment("Frying Pan")
 
 
 class ComponentList(IngredientList, ChefList, EquipmentList):

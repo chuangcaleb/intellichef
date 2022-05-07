@@ -30,6 +30,24 @@ class KitchenResource(ABC):
         return to_camel_case(self.name)
 
 
+class Chef(KitchenResource):
+
+    def __init__(self, name: str):
+        super().__init__(name)
+
+    def __repr__(self):
+        return colour(Colour.DARKCYAN, self.display_name)
+
+
+class Equipment(KitchenResource):
+
+    def __init__(self, name: str):
+        super().__init__(name)
+
+    def __repr__(self):
+        return colour(Colour.BLUE, self.display_name)
+
+
 class Component(KitchenResource):
 
     def __init__(
@@ -54,15 +72,6 @@ class Component(KitchenResource):
                 colour(Colour.YELLOW, self.display_name),
                 self.aggrg
             )
-
-
-class Equipment(KitchenResource):
-
-    def __init__(self, name: str):
-        super().__init__(name)
-
-    def __repr__(self):
-        return colour(Colour.BLUE, self.display_name)
 
 
 class Recipe(KitchenResource):
