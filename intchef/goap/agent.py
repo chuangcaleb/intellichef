@@ -9,6 +9,9 @@ from intchef.goap.world import WorldState, WorldStateFrame
 
 class Agent(ABC):
 
+    def __repr__(self):
+        return colour(Colour.PURPLE, self.__class__.__name__)
+
     @abstractmethod
     def my_policy(self,
                   world_state: WorldState,
@@ -53,9 +56,6 @@ class RandomAgent(Agent):
 
 
 class ActionAgent(Agent):
-
-    def __repr__(self):
-        return colour(Colour.PURPLE, self.__class__.__name__)
 
     def my_policy(self,
                   world_state: WorldState,

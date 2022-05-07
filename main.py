@@ -34,13 +34,13 @@ def main():
     """Main entry point for the script."""
 
     agent_list = intchef.AgentList()
-    agent = agent_list.ACTION_AGENT
+    agent = agent_list.RANDOM_AGENT
 
     recipe_book = intchef.RecipeBook()
     recipe = recipe_book.CHICKEN_FILLET_RICE
 
-    # run_n_sessions(agent, recipe, n_iter=100)
-    run_cooking_session(agent, recipe)
+    run_n_sessions(agent, recipe, n_iter=100)
+    # run_cooking_session(agent, recipe)
 
 
 if __name__ == '__main__':
