@@ -17,7 +17,7 @@ class CookingSession:
         """Initializes a cooking session"""
 
         self.timestamp: int = 0  # init: no time elapsed
-        self.error_msg = None
+        self.debug_msg = None
 
         self.agent = agent
         self.recipe = recipe
@@ -33,13 +33,14 @@ class CookingSession:
     def _check_end(self) -> bool:
         """ Check if cycle has reached an end condition """
 
+        if self.debug_msg != None:
+            print(colour(Colour.RED, f"\n\nERROR: {self.debug_msg}\n"))
+            return True
+
         if self.timestamp > self.timeout:
             print(colour(Colour.RED,
                          f"\n\nTimed out, exceeded time limit of {self.timeout}!\n"))
-            return True
-
-        if self.error_msg != None:
-            print(colour(Colour.RED, f"\n\nERROR: {self.error_msg}\n"))
+            self.debug_msg = "Timed out"
             return True
 
         # end_condition is when (subset(world state) == goal state @ timestamp)
@@ -66,7 +67,7 @@ class CookingSession:
             self.timestamp, operator.le, action_h=True))
         print()
 
-        return self.timestamp
+        return self.timestamp, self.debug_msg
 
     def loop(self) -> bool:
         """ Loop method, makes choices every tick """
