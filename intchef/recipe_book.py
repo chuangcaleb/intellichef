@@ -10,7 +10,7 @@ class RecipeBook:
             ComponentList.TOAST: 1
         }),
         initial_state=WorldStateFrame({
-            # ChefList.CHEF: 1,
+            ChefList.CHEF: 1,
             EquipmentList.TOASTER_SLOT: 1,
             IngredientList.BREAD: 1
         })
@@ -21,7 +21,7 @@ class RecipeBook:
             ComponentList.SIMPLE_TOAST_SANDWICH: 1
         }),
         initial_state=WorldStateFrame({
-            # ChefList.CHEF: 1,
+            ChefList.CHEF: 1,
             EquipmentList.TOASTER_SLOT: 2,
             IngredientList.BREAD: 2,
             IngredientList.HAM: 1,
@@ -34,7 +34,7 @@ class RecipeBook:
             ComponentList.FRIED_EGG: 1
         }),
         initial_state=WorldStateFrame({
-            # ChefList.CHEF: 1,
+            ChefList.CHEF: 1,
             EquipmentList.PAN: 1,
             IngredientList.EGG: 1,
         })
@@ -45,7 +45,7 @@ class RecipeBook:
             ComponentList.FRIED_CHICKEN_FILLET: 1
         }),
         initial_state=WorldStateFrame({
-            # ChefList.CHEF: 1,
+            ChefList.CHEF: 1,
             EquipmentList.PAN: 1,
             EquipmentList.KNIFE: 1,
             EquipmentList.BOARD: 1,
@@ -60,7 +60,7 @@ class RecipeBook:
             ComponentList.RICE: 1
         }),
         initial_state=WorldStateFrame({
-            # ChefList.CHEF: 1,
+            ChefList.CHEF: 1,
             EquipmentList.PAN: 1,
             EquipmentList.KNIFE: 1,
             EquipmentList.RICE_COOKER: 1,
