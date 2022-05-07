@@ -2,7 +2,7 @@
 
 import operator
 from typing import Dict
-
+import copy
 from intchef.goap.actions import Action, ActionList
 from intchef.goap.components import ComponentList
 
@@ -13,7 +13,8 @@ class WorldStateFrame(Dict):
         super(WorldStateFrame, self).__init__(initial_state, *args, **kw)
 
     def dupe(self) -> 'WorldStateFrame':
-        return WorldStateFrame(self.copy())
+        return copy.deepcopy(self)
+        # return WorldStateFrame(self.copy())
 
     def meets_precondition(self, preconditions) -> bool:
 
@@ -71,14 +72,14 @@ class WorldState(Dict):
             return "{" + "\n ".join([f"{k}: {v}"
                                      for k, v in states.items()]) + "}"
         else:
-            action_timestamps = self.action_hist.keys()
+            action_timestamps = self.clean_action_hist.keys()
             return "{" + "\n ".join([
 
                 # The timestamp and frame
                 f"{ks}: {f}" +
 
                 # The action, if any
-                (f"\n -> {self.action_hist[ks]}" if ks in action_timestamps else "")
+                (f"\n → {self.clean_action_hist[ks]}" if ks in action_timestamps else "")
 
                 for ks, f in states.items()
 
@@ -105,6 +106,14 @@ class WorldState(Dict):
             {new_timestamp: self[new_timestamp-1].dupe()}
         )
 
+    def dupe(self) -> 'WorldState':
+        return copy.deepcopy(self)
+
+    @property
+    def clean_action_hist(self):
+        return {k: v for k, v in self.action_hist.items()
+                if v is not ActionList.IDLE}
+
     def get_repr(self, timestamp: int, ineq_op: operator, action_h=False) -> 'str':
         return self._pretty_pformat({time: frame
                                      for time, frame in self.items()
@@ -120,6 +129,8 @@ class WorldState(Dict):
     def update_world(self, action: Action, root_timestamp: int):
         # TODO: Combine and clean
 
+        self.action_hist.update({root_timestamp: action})
+
         # Next absolute timestamp value after current root
         next_timestamp = root_timestamp + 1
 
@@ -131,8 +142,6 @@ class WorldState(Dict):
 
             return  # Terminate early either ways
 
-        self.action_hist.update({root_timestamp: action})
-
         # Get absolute timestamps when there is an effect to apply
         all_effect_timestamps = [root_timestamp + t
                                  for t in action.effect.keys()]
@@ -141,6 +150,7 @@ class WorldState(Dict):
                                  if all_effect_timestamps
                                  else next_timestamp + 1)
 
+        # Init the last extra timestamp to process
         max_timestamp = max(self._last_timestamp+1, last_effect_timestamp)
         state_frame_offset = {}
 
