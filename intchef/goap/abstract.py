@@ -69,8 +69,8 @@ class Recipe(KitchenResource):
 
     def __init__(
         self,
-        goal_state: List[Component],
-        initial_state: List[Component],
+        goal_state: List[KitchenResource],
+        initial_state: List[KitchenResource],
         name: str = None,
     ):
 
