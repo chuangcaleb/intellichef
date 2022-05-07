@@ -5,7 +5,8 @@ Defines all GOAP actions
 from typing import Dict
 
 from colours import Colour, colour
-from intchef.goap.components import ChefList, ComponentList, EquipmentList, IngredientList
+from intchef.goap.abstract import KitchenResource
+from intchef.goap.components import ComponentList, EquipmentList, IngredientList
 
 
 class Action:
@@ -21,7 +22,7 @@ class Action:
 
 class Condition(Dict):
 
-    def __init__(self, initial_state: Dict[ComponentList, int], *args, **kw):
+    def __init__(self, initial_state: Dict[KitchenResource, int], *args, **kw):
         super(Condition, self).__init__(initial_state, *args, **kw)
 
 
