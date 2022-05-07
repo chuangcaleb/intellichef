@@ -60,9 +60,9 @@ class ActionList:
         name="Assemble Simple Toast Sandwich",
         precond=Condition({
             # ChefList.CHEF: 1,
-            ComponentList.TOAST: 2,
-            ComponentList.HAM: 1,
-            ComponentList.CHEESE: 1
+            IngredientList.HAM: 1,
+            IngredientList.CHEESE: 1,
+            ComponentList.TOAST: 2
         }),
         effect=Effect({1: {
             # ChefList.CHEF: 1,
@@ -73,13 +73,43 @@ class ActionList:
         name="Fry Egg",
         precond=Condition({
             # ChefList.CHEF: 1,
-            ComponentList.EGG: 1,
-            EquipmentList.PAN: 1
+            EquipmentList.PAN: 1,
+            IngredientList.EGG: 1
         }),
         effect=Effect({2: {
             # ChefList.CHEF: 1,
             EquipmentList.PAN: 1,
             ComponentList.FRIED_EGG: 1
+        }})
+    )
+
+    DEBONE_THIGH = Action(
+        name="Debone Thigh",
+        precond=Condition({
+            # ChefList.CHEF: 1,
+            IngredientList.RAW_CHICKEN_THIGH: 1,
+            EquipmentList.KNIFE: 1,
+            EquipmentList.BOARD: 1
+        }),
+        effect=Effect({2: {
+            # ChefList.CHEF: 1,
+            ComponentList.RAW_CHICKEN_FILLET: 1,
+            EquipmentList.KNIFE: 1,
+            EquipmentList.BOARD: 1
+        }})
+    )
+
+    FRY_FILLET = Action(
+        name="Fry Chicken Fillet",
+        precond=Condition({
+            # ChefList.CHEF: 1,
+            ComponentList.RAW_CHICKEN_FILLET: 1,
+            EquipmentList.PAN: 1
+        }),
+        effect=Effect({2: {
+            # ChefList.CHEF: 1,
+            ComponentList.FRIED_CHICKEN_FILLET: 1,
+            EquipmentList.PAN: 1
         }})
     )
 

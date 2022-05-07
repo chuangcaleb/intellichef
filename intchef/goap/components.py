@@ -13,6 +13,8 @@ class EquipmentList:
 
     TOASTER_SLOT = Equipment("Toaster Slot")
     PAN = Equipment("Frying Pan")
+    KNIFE = Equipment("Knife")
+    BOARD = Equipment("Chopping Board")
 
 
 class IngredientList:
@@ -22,6 +24,7 @@ class IngredientList:
     HAM = Component("Ham", "slice")
     CHEESE = Component("Cheese", "slice")
     EGG = Component("Egg", "")
+    RAW_CHICKEN_THIGH = Component("Chicken Thigh", "")
 
 
 class ComponentList(IngredientList, ChefList, EquipmentList):
@@ -40,3 +43,7 @@ class ComponentList(IngredientList, ChefList, EquipmentList):
     )
 
     FRIED_EGG = Component("Fried Egg", "")
+
+    RAW_CHICKEN_FILLET = Component("Raw Chicken Fillet", "")
+
+    FRIED_CHICKEN_FILLET = Component("Fried Chicken Fillet", "")

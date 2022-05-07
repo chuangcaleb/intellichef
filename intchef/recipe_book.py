@@ -39,3 +39,16 @@ class RecipeBook:
             IngredientList.EGG: 1,
         })
     )
+
+    FRIED_CHICKEN_FILLET = Recipe(
+        goal_state=WorldStateFrame({
+            ComponentList.FRIED_CHICKEN_FILLET: 1
+        }),
+        initial_state=WorldStateFrame({
+            # ChefList.CHEF: 1,
+            EquipmentList.PAN: 1,
+            EquipmentList.KNIFE: 1,
+            EquipmentList.BOARD: 1,
+            IngredientList.RAW_CHICKEN_THIGH: 1,
+        })
+    )
