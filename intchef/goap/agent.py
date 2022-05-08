@@ -79,8 +79,7 @@ class BruteForceAgent(Agent):
     """Brute-Force Uninformed Depth-First-Search """
 
     def __init__(self, recipe: Recipe, timeout: int):
-        # self.iter = 0
-        # self.solved = False
+        self.iter = 0
 
         self.goal_state: Condition = recipe.goal_state
         self.dummy_world: WorldState = WorldState({0: recipe.ingredients})
@@ -93,6 +92,7 @@ class BruteForceAgent(Agent):
 
         if self.success:
             print("BEST:", best_depth, self.best_policy)
+            print(f"Through {self.iter} iterations")
         else:
             print(type(self).__name__ +
                   " did not find a solution within the timeout limit. Consider increasing the timeout?")
@@ -100,6 +100,8 @@ class BruteForceAgent(Agent):
 
     def DFS_recursion(self, world_state: WorldState,
                       depth: int) -> Tuple[bool, int, str]:
+
+        self.iter += 1
 
         # If goal state, return action history
         if world_state[depth].meets_precondition(self.goal_state):
@@ -131,8 +133,8 @@ class BruteForceAgent(Agent):
                 sub_world.update_world(current_action, depth)
 
                 # Recurse
-                (success, new_depth, new_action_hist) = \
-                    self.DFS_recursion(sub_world, depth+1)
+                (success, new_depth, new_action_hist) = self.DFS_recursion(
+                    sub_world, depth+1)
 
                 # If subtree has new high score
                 if success and (new_depth < best_depth_subtree):
