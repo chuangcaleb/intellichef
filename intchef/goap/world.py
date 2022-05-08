@@ -2,8 +2,7 @@
 
 import operator
 from typing import Dict
-import copy
-from intchef.goap.actions import Action, ActionList
+from intchef.goap.actions import Action, ActionList, Condition
 from intchef.goap.components import ComponentList
 
 
@@ -16,7 +15,7 @@ class WorldStateFrame(Dict):
         # return copy.deepcopy(self)
         return WorldStateFrame(self.copy())
 
-    def meets_precondition(self, preconditions) -> bool:
+    def meets_precondition(self, preconditions: Condition) -> bool:
 
         # for component,value pair in precondition
         for component, value in preconditions.items():
@@ -110,7 +109,7 @@ class WorldState(Dict):
 
     def dupe(self) -> 'WorldState':
         # we can't deepcopy, because it also creates new references to constants
-        # we want a deep copied Frame object with the shallow copied Components
+        # we want a deep copied Frame object with the shallow copied Foods
         return WorldState({key: frame.dupe() for key, frame in self.items()},
                           self.action_hist.copy())
 

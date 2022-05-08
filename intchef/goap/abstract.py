@@ -48,14 +48,14 @@ class Equipment(KitchenResource):
         return colour(Colour.BLUE, self.display_name)
 
 
-class Component(KitchenResource):
+class Food(KitchenResource):
 
     def __init__(
             self,
             name: str,
             counter: str,
             # state: str = None,
-            aggrg: List['Component'] = None,
+            aggrg: List['Food'] = None,
             quantity: int = 1,
     ):
         super().__init__(name)

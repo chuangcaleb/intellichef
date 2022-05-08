@@ -19,12 +19,12 @@ class CookingSession:
         self.timestamp: int = 0  # init: no time elapsed
         self.debug_msg = None
 
-        self.agent = agent
-        self.recipe = recipe
-        self.timeout = timeout
+        self.agent: Agent = agent
+        self.recipe: Recipe = recipe
+        self.timeout: int = timeout
 
         # init: default WorldState
-        self.world_state = WorldState({0: recipe.ingredients})
+        self.world_state: WorldState = WorldState({0: recipe.ingredients})
 
         # param to include washing equipment in final goal state?
 

@@ -1,7 +1,7 @@
 """
-Definitions of every Component
+Definitions of every Food
 """
-from intchef.goap.abstract import Chef, Component, Equipment
+from intchef.goap.abstract import Chef, Food, Equipment
 
 
 class ChefList:
@@ -21,21 +21,21 @@ class EquipmentList:
 
 class IngredientList:
 
-    BREAD = Component("Bread", "slice")
-    BUTTER = Component("Butter", "knob")
-    HAM = Component("Ham", "slice")
-    CHEESE = Component("Cheese", "slice")
-    EGG = Component("Egg", "")
-    RAW_CHICKEN_THIGH = Component("Raw Chicken Thigh", "")
-    RAW_RICE = Component("Raw Rice", "")
+    BREAD = Food("Bread", "slice")
+    BUTTER = Food("Butter", "knob")
+    HAM = Food("Ham", "slice")
+    CHEESE = Food("Cheese", "slice")
+    EGG = Food("Egg", "")
+    RAW_CHICKEN_THIGH = Food("Raw Chicken Thigh", "")
+    RAW_RICE = Food("Raw Rice", "")
 
 
 class ComponentList(IngredientList, ChefList, EquipmentList):
 
-    TOAST = Component("Toast", "slice")
-    RICE = Component("Rice", "")
+    TOAST = Food("Toast", "slice")
+    RICE = Food("Rice", "")
 
-    SIMPLE_TOAST_SANDWICH = Component(
+    SIMPLE_TOAST_SANDWICH = Food(
         "Simple Toast Sandwich",
         counter="",
         # state="buttered",
@@ -46,11 +46,11 @@ class ComponentList(IngredientList, ChefList, EquipmentList):
         # }
     )
 
-    FRIED_EGG = Component("Fried Egg", "")
+    FRIED_EGG = Food("Fried Egg", "")
 
-    WASHED_RICE = Component("Washed Rice", "")
-    RICE = Component("Rice", "")
+    WASHED_RICE = Food("Washed Rice", "")
+    RICE = Food("Rice", "")
 
-    RAW_CHICKEN_FILLET = Component("Raw Chicken Fillet", "")
+    RAW_CHICKEN_FILLET = Food("Raw Chicken Fillet", "")
 
-    FRIED_CHICKEN_FILLET = Component("Fried Chicken Fillet", "")
+    FRIED_CHICKEN_FILLET = Food("Fried Chicken Fillet", "")
