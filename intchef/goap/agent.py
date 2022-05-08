@@ -8,7 +8,7 @@ from colours import Colour, colour
 from intchef.goap import world
 from intchef.goap.abstract import Recipe
 
-from intchef.goap.actions import ALL_ACTIONS, Action, ActionList
+from intchef.goap.actions import ALL_ACTIONS, Action, ActionList, Condition
 from intchef.goap.world import WorldState, WorldStateFrame
 
 
@@ -76,16 +76,17 @@ class ActionAgent(Agent):
 
 
 class BruteForceAgent(Agent):
-    """Brute Force Uninformed Search """
+    """Brute-Force Uninformed Depth-First-Search """
 
     def __init__(self, recipe: Recipe, timeout: int):
         # self.iter = 0
         # self.solved = False
 
-        self.goal_state = recipe.goal_state
-        self.dummy_world = WorldState({0: recipe.ingredients})
+        self.goal_state: Condition = recipe.goal_state
+        self.dummy_world: WorldState = WorldState({0: recipe.ingredients})
         # adjust for starting count at 0
-        self.timeout = self.best_depth = timeout - 1
+        self.timeout: int = timeout - 1
+        self.best_depth: int = self.timeout
 
         self.success, best_depth, self.best_policy = \
             self.DFS_recursion(self.dummy_world, 0)
@@ -116,7 +117,7 @@ class BruteForceAgent(Agent):
             # Generate duplicate world state and actions
             legal_actions = self._get_legal_actions(world_state[depth])
             best_depth_subtree = 9999999
-            best_action_hist = None
+            best_action_hist: List[Action] = None
             subtree_has_success = False
 
             # Over all legal actions
@@ -139,6 +140,8 @@ class BruteForceAgent(Agent):
                     subtree_has_success = True
                     best_depth_subtree = new_depth
                     best_action_hist = new_action_hist
+
+                del sub_world  # Garbage collection
 
             return subtree_has_success, best_depth_subtree, best_action_hist
 
