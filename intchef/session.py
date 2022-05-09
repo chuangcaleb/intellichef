@@ -83,4 +83,5 @@ class CookingSession:
 
         action = self.agent.policy(self.world_state, self.timestamp)
         print(type(self.agent).__name__, "chooses:", action, end="\n\n")
+
         self.world_state.update_world(action, self.timestamp)

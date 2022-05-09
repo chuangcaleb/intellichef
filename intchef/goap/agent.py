@@ -23,7 +23,8 @@ class Agent(ABC):
         return 0
 
     @abstractmethod
-    def policy(self, world_state: WorldState, timestamp: int) -> Action:
+    def policy(self):
+        self.opened_nodes += 1
         pass
 
     def _get_legal_actions(self, world_state_frame: WorldStateFrame, verbose=False) -> List[Action]:
@@ -66,7 +67,7 @@ class RandomAgent(Agent):
                ) -> Action:
         """ Randomly select an Action from the list of legal actions """
 
-        self.opened_nodes += 1
+        super().policy()
 
         legal_actions = self._get_legal_actions(
             world_state[timestamp], verbose=True)
@@ -82,7 +83,7 @@ class ActionAgent(Agent):
                ) -> Action:
         """ Randomly select an Action from the list of legal actions, preferring not to Do Nothing """
 
-        self.opened_nodes += 1
+        super().policy()
 
         legal_actions = self._get_legal_actions_avoid_idling(
             world_state, timestamp, verbose=True)
@@ -183,6 +184,8 @@ class BruteForceAgent(Agent):
                world_state: WorldState,
                timestamp: int,
                ) -> Action:
+
+        super().policy()
 
         # Print the legal actions, for consistency with other agents
         self._get_legal_actions(world_state[timestamp], verbose=True)
