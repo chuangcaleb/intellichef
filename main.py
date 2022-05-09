@@ -22,7 +22,7 @@ def run_cooking_session(agent, recipe, timeout):
     print(f"Agent: {agent}")
     print(f"Recipe: {recipe}")
     print(f"Time taken: {score}")
-    print(f"Nodes opened: {opened_nodes}")
+    print(f"Extra nodes opened: {opened_nodes}")
 
     return score, debug_msg
 
@@ -54,13 +54,13 @@ def main():
     """Main entry point for the script."""
 
     recipe_book = intchef.RecipeBook()
-    recipe = recipe_book.TOAST
+    recipe = recipe_book.CHICKEN_FILLET_MEAL
     timeout = 12
 
     # agent = intchef.agent.RandomAgent()
     # agent = intchef.agent.ActionAgent()
-    # agent = intchef.agent.BruteForceAgent(avoid_idling=True)
-    agent = intchef.agent.BruteForceAgent(avoid_idling=False)
+    agent = intchef.agent.BruteForceAgent(avoid_idling=True)
+    # agent = intchef.agent.BruteForceAgent(avoid_idling=False)
 
     # run_n_sessions(agent, recipe, n_iter=100, timeout=20)
     run_cooking_session(agent, recipe, timeout)

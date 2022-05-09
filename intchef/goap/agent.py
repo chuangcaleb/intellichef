@@ -24,7 +24,6 @@ class Agent(ABC):
 
     @abstractmethod
     def policy(self):
-        self.opened_nodes += 1
         pass
 
     def _get_legal_actions(self, world_state_frame: WorldStateFrame, verbose=False) -> List[Action]:
@@ -66,8 +65,6 @@ class RandomAgent(Agent):
                ) -> Action:
         """ Randomly select an Action from the list of legal actions """
 
-        super().policy()
-
         legal_actions = self._get_legal_actions(
             world[timestamp], verbose=True)
 
@@ -81,8 +78,6 @@ class ActionAgent(Agent):
                timestamp: int,
                ) -> Action:
         """ Randomly select an Action from the list of legal actions, preferring not to Do Nothing """
-
-        super().policy()
 
         legal_actions = self._get_legal_actions_avoid_idling(
             world_state, timestamp, verbose=True)
@@ -129,24 +124,23 @@ class BruteForceAgent(Agent):
 
         self.opened_nodes += 1
 
-        # If goal state, return action history
-        if world[depth].meets_precondition(self.goal_state):
-
-            # print("success state")
-            return True, depth, world.action_hist
-
         # If reached timeout, return back
-        elif depth > self.timeout:
+        if depth > self.timeout:
             # print("TIMEDOUT")
             return False, depth, world.action_hist
+
+        # If goal state, return action history
+        elif world[depth].meets_precondition(self.goal_state):
+            # print("success state")
+            return True, depth, world.action_hist
 
         # Else, recurse
         else:
 
             # Generate duplicate world state and actions
             if self.avoid_idling:
-                legal_actions = self._get_legal_actions_avoid_idling(
-                    world, depth)
+                legal_actions = \
+                    self._get_legal_actions_avoid_idling(world, depth)
             else:
                 legal_actions = self._get_legal_actions(world[depth])
 
@@ -183,8 +177,6 @@ class BruteForceAgent(Agent):
                world: World,
                timestamp: int,
                ) -> Action:
-
-        super().policy()
 
         # Print the legal actions, for consistency with other agents
         self._get_legal_actions(world[timestamp], verbose=True)
