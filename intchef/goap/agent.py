@@ -15,6 +15,8 @@ class Agent(ABC):
 
     def __init__(self) -> None:
         self.opened_nodes = 0
+        self.success_nodes_found = 0
+        self.timedout_nodes = 0
 
     def __repr__(self):
         return colour(Colour.PURPLE, self.__class__.__name__)
@@ -101,6 +103,8 @@ class BruteForceAgent(Agent):
     def precompute(self, recipe: Recipe, timeout: int):
 
         self.opened_nodes = 0
+        self.success_nodes_found = 0
+        self.timedout_nodes = 0
 
         self.goal_state: Condition = recipe.goal_state
         self.dummy_world: World = World({0: recipe.ingredients})
@@ -127,10 +131,12 @@ class BruteForceAgent(Agent):
         # If reached timeout, return back
         if depth > self.timeout:
             # print("TIMEDOUT")
+            self.timedout_nodes += 1
             return False, depth, world.action_hist
 
         # If goal state, return action history
         elif world[depth].meets_precondition(self.goal_state):
+            self.success_nodes_found += 1
             # print("success state")
             return True, depth, world.action_hist
 

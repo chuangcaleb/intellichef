@@ -70,7 +70,7 @@ class CookingSession:
             self.timestamp, operator.le, action_h=True))
         print("\n\n")
 
-        return self.timestamp, self.debug_msg, self.agent.opened_nodes
+        return self.timestamp, self.debug_msg, self.agent
 
     def loop(self) -> bool:
         """ Loop method, makes choices every tick """
