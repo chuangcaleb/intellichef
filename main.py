@@ -47,12 +47,12 @@ def main():
     """Main entry point for the script."""
 
     recipe_book = intchef.RecipeBook()
-    recipe = recipe_book.CHICKEN_FILLET_MEAL
+    recipe = recipe_book.SIMPLE_TOAST_SANDWICH
 
-    # agent = intchef.agent.ActionAgent()
+    agent = intchef.agent.ActionAgent()
 
     timeout = 12
-    agent = intchef.agent.BruteForceAgent(recipe, timeout)
+    # agent = intchef.agent.BruteForceAgent(recipe, timeout)
 
     # run_n_sessions(agent, recipe, n_iter=100, timeout=20)
     run_cooking_session(agent, recipe, timeout)

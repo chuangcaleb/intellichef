@@ -21,7 +21,7 @@ class Agent(ABC):
         pass
 
     def _get_legal_actions(self, world_state_frame: WorldStateFrame, verbose=False) -> List[Action]:
-        """ Grab a list of legal Actions if the current WorldState meets its preconditions """
+        """ Grab a list a legal Actions if the current WorldState meets its preconditions """
 
         legal_actions = [
             action for action in ALL_ACTIONS
@@ -33,8 +33,21 @@ class Agent(ABC):
 
         return legal_actions
 
-    # def _get_smart_legal_actions(self, world_state: WorldState) -> List[Action]:
-    #     pass
+    def _get_smart_legal_actions(self, world_state: WorldState, timestamp: int, verbose=False) -> List[Action]:
+        """ Grab a list of legal Actions, but choose an effective action if possible if there are no pending delayed effects """
+
+        legal_actions = self._get_legal_actions(
+            world_state[timestamp], verbose)
+
+        if (
+            # No pending delayed effects
+            (world_state._last_timestamp == timestamp) and
+            # If there are effective actions, which excludes ActionList.IDLE
+            (len(legal_actions) > 1 and ActionList.IDLE in legal_actions)
+        ):
+            legal_actions.remove(ActionList.IDLE)
+
+        return legal_actions
 
 
 class RandomAgent(Agent):
@@ -59,12 +72,8 @@ class ActionAgent(Agent):
                ) -> Action:
         """ Randomly select an Action from the list of legal actions, preferring not to Do Nothing """
 
-        legal_actions = self._get_legal_actions(
-            world_state[timestamp], verbose=True)
-
-        # if any other action(s) than IDLE, remove IDLE
-        if len(legal_actions) > 1 and ActionList.IDLE in legal_actions:
-            legal_actions.remove(ActionList.IDLE)
+        legal_actions = self._get_smart_legal_actions(
+            world_state, timestamp, verbose=True)
 
         return random.choice(tuple(legal_actions))
 
