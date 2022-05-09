@@ -8,7 +8,7 @@ from colours import Colour, colour
 from intchef.goap.abstract import Recipe
 
 from intchef.goap.actions import ALL_ACTIONS, Action, ActionList, Condition
-from intchef.goap.world import WorldState, WorldStateFrame
+from intchef.goap.world import World, WorldStateFrame
 
 
 class Agent(ABC):
@@ -28,7 +28,7 @@ class Agent(ABC):
         pass
 
     def _get_legal_actions(self, world_state_frame: WorldStateFrame, verbose=False) -> List[Action]:
-        """ Grab a list a legal Actions if the current WorldState meets its preconditions """
+        """ Grab a list a legal Actions if the WorldStateFrame meets its preconditions """
 
         legal_actions = [
             action for action in ALL_ACTIONS
@@ -41,16 +41,15 @@ class Agent(ABC):
         return legal_actions
 
     def _get_legal_actions_avoid_idling(
-        self, world_state: WorldState, timestamp: int, verbose=False
+        self, world: World, timestamp: int, verbose=False
     ) -> List[Action]:
         """ Grab a list of legal Actions, but choose an effective action if possible if there are no pending delayed effects """
 
-        legal_actions = self._get_legal_actions(
-            world_state[timestamp], verbose)
+        legal_actions = self._get_legal_actions(world[timestamp], verbose)
 
         if (
             # No pending delayed effects
-            (world_state._last_timestamp == timestamp) and
+            (world.last_timestamp == timestamp) and
             # If there are effective actions, which excludes ActionList.IDLE
             (len(legal_actions) > 1 and ActionList.IDLE in legal_actions)
         ):
@@ -62,7 +61,7 @@ class Agent(ABC):
 class RandomAgent(Agent):
 
     def policy(self,
-               world_state: WorldState,
+               world: World,
                timestamp: int
                ) -> Action:
         """ Randomly select an Action from the list of legal actions """
@@ -70,7 +69,7 @@ class RandomAgent(Agent):
         super().policy()
 
         legal_actions = self._get_legal_actions(
-            world_state[timestamp], verbose=True)
+            world[timestamp], verbose=True)
 
         return random.choice(tuple(legal_actions))
 
@@ -78,7 +77,7 @@ class RandomAgent(Agent):
 class ActionAgent(Agent):
 
     def policy(self,
-               world_state: WorldState,
+               world_state: World,
                timestamp: int,
                ) -> Action:
         """ Randomly select an Action from the list of legal actions, preferring not to Do Nothing """
@@ -99,22 +98,23 @@ class BruteForceAgent(Agent):
         self.avoid_idling = avoid_idling
 
     def __repr__(self):
+        classname = super().__repr__()
         if self.avoid_idling:
-            return f"{super().__repr__()} with avoid idling"
-        return f"{super().__repr__()}"
+            return f"{classname} with avoid idling"
+        return classname
 
     def precompute(self, recipe: Recipe, timeout: int):
 
         self.opened_nodes = 0
 
         self.goal_state: Condition = recipe.goal_state
-        self.dummy_world: WorldState = WorldState({0: recipe.ingredients})
+        self.dummy_world: World = World({0: recipe.ingredients})
         # adjust for starting count at 0
-        self.timeout: int = timeout - 1
+        self.timeout: int = timeout
         self.best_depth: int = self.timeout
 
-        self.success, best_depth, self.best_plan = self.DFS_recursion(
-            self.dummy_world, 0)
+        self.success, best_depth, self.best_plan = \
+            self.DFS_recursion(self.dummy_world, 0)
 
         if self.success:
             print("BEST:", best_depth, self.best_plan)
@@ -125,21 +125,20 @@ class BruteForceAgent(Agent):
 
         return self.opened_nodes
 
-    def DFS_recursion(self, world_state: WorldState,
-                      depth: int) -> Tuple[bool, int, str]:
+    def DFS_recursion(self, world: World, depth: int) -> Tuple[bool, int, str]:
 
         self.opened_nodes += 1
 
         # If goal state, return action history
-        if world_state[depth].meets_precondition(self.goal_state):
+        if world[depth].meets_precondition(self.goal_state):
 
             # print("success state")
-            return True, depth, world_state.action_hist
+            return True, depth, world.action_hist
 
         # If reached timeout, return back
         elif depth > self.timeout:
             # print("TIMEDOUT")
-            return False, depth, world_state.action_hist
+            return False, depth, world.action_hist
 
         # Else, recurse
         else:
@@ -147,9 +146,9 @@ class BruteForceAgent(Agent):
             # Generate duplicate world state and actions
             if self.avoid_idling:
                 legal_actions = self._get_legal_actions_avoid_idling(
-                    world_state, depth)
+                    world, depth)
             else:
-                legal_actions = self._get_legal_actions(world_state[depth])
+                legal_actions = self._get_legal_actions(world[depth])
 
             best_depth_subtree = 9999999
             best_plan: List[Action] = None
@@ -159,15 +158,15 @@ class BruteForceAgent(Agent):
             while legal_actions:
 
                 # New parallel world timeline
-                sub_world = world_state.dupe()
+                sub_world = world.dupe()
 
                 # Apply top action
                 current_action = legal_actions.pop(0)
-                sub_world.update_world(current_action, depth)
+                sub_world.update_world(current_action)
 
                 # Recurse
-                (success, new_depth, new_action_hist) = self.DFS_recursion(
-                    sub_world, depth+1)
+                (success, new_depth, new_action_hist) = \
+                    self.DFS_recursion(sub_world, depth+1)
 
                 # If subtree has new high score
                 if success and (new_depth < best_depth_subtree):
@@ -181,13 +180,13 @@ class BruteForceAgent(Agent):
             return subtree_has_success, best_depth_subtree, best_plan
 
     def policy(self,
-               world_state: WorldState,
+               world: World,
                timestamp: int,
                ) -> Action:
 
         super().policy()
 
         # Print the legal actions, for consistency with other agents
-        self._get_legal_actions(world_state[timestamp], verbose=True)
+        self._get_legal_actions(world[timestamp], verbose=True)
 
         return self.best_plan[timestamp]

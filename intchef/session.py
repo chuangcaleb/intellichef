@@ -6,7 +6,7 @@ The CookingSession class definition that handles each GOAP session.
 from intchef.goap.abstract import Recipe
 from intchef.goap.agent import Agent
 from colours import Colour, colour
-from intchef.goap.world import World, WorldState
+from intchef.goap.world import World
 import operator
 
 
@@ -23,8 +23,7 @@ class CookingSession:
         self.recipe: Recipe = recipe
         self.timeout: int = timeout
 
-        # init: default WorldState
-        # self.world_state: WorldState = WorldState({0: recipe.ingredients})
+        # init: default World
         self.world_state: World = World({0: recipe.ingredients})
 
         # Precompute agent plan
@@ -49,7 +48,7 @@ class CookingSession:
 
         # end_condition is when (subset(world state) == goal state @ timestamp)
         if self.world_state.meets_precondition(
-                self.recipe.goal_state, self.timestamp):
+                self.recipe.goal_state):
             print(colour(Colour.GREEN,
                          f"\n\nSuccessfully made: {self.recipe.name}!\n"))
             return True
@@ -69,7 +68,7 @@ class CookingSession:
         print("Final world state history:")
         print(self.world_state.get_repr(
             self.timestamp, operator.le, action_h=True))
-        print()
+        print("\n\n")
 
         return self.timestamp, self.debug_msg, self.agent.opened_nodes
 
@@ -85,4 +84,4 @@ class CookingSession:
         action = self.agent.policy(self.world_state, self.timestamp)
         print(type(self.agent).__name__, "chooses:", action, end="\n\n")
 
-        self.world_state.update_world(action, self.timestamp)
+        self.world_state.update_world(action)
