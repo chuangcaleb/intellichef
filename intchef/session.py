@@ -6,7 +6,7 @@ The CookingSession class definition that handles each GOAP session.
 from intchef.goap.abstract import Recipe
 from intchef.goap.agent import Agent
 from colours import Colour, colour
-from intchef.goap.world import WorldState
+from intchef.goap.world import World, WorldState
 import operator
 
 
@@ -24,7 +24,8 @@ class CookingSession:
         self.timeout: int = timeout
 
         # init: default WorldState
-        self.world_state: WorldState = WorldState({0: recipe.ingredients})
+        # self.world_state: WorldState = WorldState({0: recipe.ingredients})
+        self.world_state: World = World({0: recipe.ingredients})
 
         # Precompute agent plan
         self.agent.precompute(recipe, timeout)

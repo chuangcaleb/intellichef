@@ -113,8 +113,8 @@ class BruteForceAgent(Agent):
         self.timeout: int = timeout - 1
         self.best_depth: int = self.timeout
 
-        self.success, best_depth, self.best_plan = \
-            self.DFS_recursion(self.dummy_world, 0)
+        self.success, best_depth, self.best_plan = self.DFS_recursion(
+            self.dummy_world, 0)
 
         if self.success:
             print("BEST:", best_depth, self.best_plan)

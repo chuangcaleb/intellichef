@@ -200,3 +200,120 @@ class WorldState(Dict):
                     if ko in current_frame_components else vo
 
         self._clean_zero_entries()
+
+
+class World():
+
+    def __init__(self, initial_state: WorldStateFrame = None):
+        # super(WorldState, self).__init__(initial_state, *args, **kw)
+
+        self.timeline = {}
+        self.offsets = {}
+        self.action_hist = {}
+
+        if initial_state:
+            self.timeline.update(WorldStateFrame(initial_state))
+            self.offsets.update(WorldStateFrame(initial_state))
+
+    def __getitem__(self, timestamp):
+        return self.timeline[timestamp]
+
+    def _clean_zero_entries(self):
+
+        # Get list of zero entries
+        zero_list = [comp
+                     for comp, val
+                     in self.timeline[self._last_timestamp].items()
+                     if val == 0]
+
+        # Pop those zero entries
+        for comp in zero_list:
+            self.timeline[self._last_timestamp].pop(comp)
+
+    @property
+    def _last_timestamp(self):
+        return len(self.timeline) - 1
+
+    def get_repr(self, timestamp: int, ineq_op: operator, action_h=False) -> 'str':
+        # return {ts: frame for ts, frame in self.timeline if ts == _l}
+        return self.timeline[self._last_timestamp]
+
+    def meets_precondition(self, preconditions, timestamp: int) -> bool:
+
+        current_frame = self.timeline[self._last_timestamp]
+
+        # for component,value pair in precondition
+        for component, value in preconditions.items():
+
+            if (
+                # if world state has item and
+                (component in current_frame.keys())
+                # and also in enough quantity
+                and (current_frame[component] >= value)
+            ):
+                pass
+
+            else:
+
+                return False  # If it fails at all, instantly return False
+
+        return True  # If it never fails, return True
+
+    def update_world(self, action: Action, root_timestamp: int):
+
+        self.action_hist.update({self._last_timestamp: action})
+
+        next_timestamp = self._last_timestamp + 1
+
+        # if action == ActionList.IDLE:  # If choosing to IDLE
+
+        #     if next_timestamp not in self.keys():  # If next frame uncreated
+        #         # Just clone for the next world state frame
+        #         self._clone_frame(next_timestamp)
+
+        all_effects_ts = [ts + self._last_timestamp
+                          for ts in action.effect.keys()]
+        print(all_effects_ts)
+        last_effect_ts = max(all_effects_ts) if all_effects_ts \
+            else self._last_timestamp + 1
+
+        for timestamp in range(next_timestamp, last_effect_ts+1):
+            if timestamp not in self.offsets:
+                self.offsets[timestamp] = {}
+
+        # print("Precond:", self.offsets)
+
+        # Update preconditions
+        next_offset = self.offsets[next_timestamp]
+        for comp, modifier in action.precond.items():
+            if (comp in next_offset):
+                next_offset[comp] -= modifier
+            else:
+                next_offset.update({comp: -modifier})
+
+        # print("Precond:", self.offsets)
+
+        # Update offsets
+        for timestamp, effects_list in action.effect.items():
+            rel_offset = self.offsets[timestamp + self._last_timestamp]
+            for comp, modifier in effects_list.items():
+                if (comp in rel_offset):
+                    rel_offset[comp] += modifier
+                else:
+                    rel_offset.update({comp: modifier})
+
+        # print("Postcond:", self.offsets)
+        self.update_timeline()
+
+    def update_timeline(self):
+
+        self.timeline[self._last_timestamp + 1] \
+            = self.timeline[self._last_timestamp].dupe()
+
+        for item, value in self.offsets[self._last_timestamp].items():
+            if item in self.timeline[self._last_timestamp]:
+                self.timeline[self._last_timestamp][item] += value
+            else:
+                self.timeline[self._last_timestamp][item] = value
+
+        self._clean_zero_entries()
