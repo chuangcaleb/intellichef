@@ -57,8 +57,8 @@ def main():
     recipe = recipe_book.CHICKEN_FILLET_MEAL
     timeout = 12
 
-    agent = intchef.agent.ActionAgent()
-    # agent = intchef.agent.BruteForceAgent()
+    # agent = intchef.agent.ActionAgent()
+    agent = intchef.agent.BruteForceAgent(avoid_idling=True)
 
     # run_n_sessions(agent, recipe, n_iter=100, timeout=20)
     run_cooking_session(agent, recipe, timeout)

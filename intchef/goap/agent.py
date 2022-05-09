@@ -39,7 +39,9 @@ class Agent(ABC):
 
         return legal_actions
 
-    def _get_smart_legal_actions(self, world_state: WorldState, timestamp: int, verbose=False) -> List[Action]:
+    def _get_legal_actions_avoid_idling(
+        self, world_state: WorldState, timestamp: int, verbose=False
+    ) -> List[Action]:
         """ Grab a list of legal Actions, but choose an effective action if possible if there are no pending delayed effects """
 
         legal_actions = self._get_legal_actions(
@@ -82,7 +84,7 @@ class ActionAgent(Agent):
 
         self.opened_nodes += 1
 
-        legal_actions = self._get_smart_legal_actions(
+        legal_actions = self._get_legal_actions_avoid_idling(
             world_state, timestamp, verbose=True)
 
         return random.choice(tuple(legal_actions))
@@ -90,6 +92,15 @@ class ActionAgent(Agent):
 
 class BruteForceAgent(Agent):
     """Brute-Force Uninformed Depth-First-Search """
+
+    def __init__(self, avoid_idling: bool) -> None:
+        super().__init__()
+        self.avoid_idling = avoid_idling
+
+    def __repr__(self):
+        if self.avoid_idling:
+            return f"{super().__repr__()} with avoid idling"
+        return f"{super().__repr__()}"
 
     def precompute(self, recipe: Recipe, timeout: int):
 
@@ -131,8 +142,14 @@ class BruteForceAgent(Agent):
 
         # Else, recurse
         else:
+
             # Generate duplicate world state and actions
-            legal_actions = self._get_legal_actions(world_state[depth])
+            if self.avoid_idling:
+                legal_actions = self._get_legal_actions_avoid_idling(
+                    world_state, depth)
+            else:
+                legal_actions = self._get_legal_actions(world_state[depth])
+
             best_depth_subtree = 9999999
             best_plan: List[Action] = None
             subtree_has_success = False
