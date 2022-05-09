@@ -76,13 +76,13 @@ class RandomAgent(Agent):
 class ActionAgent(Agent):
 
     def policy(self,
-               world_state: World,
+               world: World,
                timestamp: int,
                ) -> Action:
         """ Randomly select an Action from the list of legal actions, preferring not to Do Nothing """
 
         legal_actions = self._get_legal_actions_avoid_idling(
-            world_state, timestamp, verbose=True)
+            world, timestamp, verbose=True)
 
         return random.choice(tuple(legal_actions))
 

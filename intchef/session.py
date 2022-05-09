@@ -24,7 +24,7 @@ class CookingSession:
         self.timeout: int = timeout
 
         # init: default World
-        self.world_state: World = World({0: recipe.ingredients})
+        self.world: World = World({0: recipe.ingredients})
 
         # Precompute agent plan
         self.agent.precompute(recipe, timeout)
@@ -47,7 +47,7 @@ class CookingSession:
             return True
 
         # end_condition is when (subset(world state) == goal state @ timestamp)
-        if self.world_state.meets_precondition(self.recipe.goal_state):
+        if self.world.meets_precondition(self.recipe.goal_state):
             print(colour(Colour.GREEN,
                          f"\n\nSuccessfully made: {self.recipe.name}!\n"))
             return True
@@ -65,7 +65,7 @@ class CookingSession:
             self.timestamp += 1
 
         print("Final world state history:")
-        print(self.world_state.get_repr(
+        print(self.world.get_repr(
             self.timestamp, operator.le, action_h=True))
         print("\n\n")
 
@@ -78,9 +78,9 @@ class CookingSession:
               "-------------------------------------------------------------\n")
 
         print("Current world state:")
-        print(self.world_state.get_repr(self.timestamp, operator.ge), end="\n\n")
+        print(self.world.get_repr(self.timestamp, operator.ge), end="\n\n")
 
-        action = self.agent.policy(self.world_state, self.timestamp)
+        action = self.agent.policy(self.world, self.timestamp)
         print(type(self.agent).__name__, "chooses:", action, end="\n\n")
 
-        self.world_state.update_world(action)
+        self.world.update_world(action)
