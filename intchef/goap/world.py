@@ -1,6 +1,5 @@
 """ World State of the session at any one time, across time dimensions """
 
-import copy
 import operator
 from typing import Dict
 from intchef.goap.actions import Action, ActionList, Condition
@@ -31,28 +30,6 @@ class WorldStateFrame(Dict):
                 return False  # If it fails at all, instantly return False
 
         return True  # If it never fails, return True
-
-    def update_frame(self, action: Action):
-
-        updated_frame = {}
-
-        # Pop conditions from world state
-        updated_frame.update(
-            {cond: (self[cond] - action.precond[cond])
-             for cond in action.precond}
-        )
-
-        for cond in action.effect:
-
-            # Push new condition into world state frame
-            if cond in self.keys():  # Add to current count
-                updated_frame[cond] = (
-                    self[cond] + action.effect[cond]
-                )
-            else:  # Or add a new component
-                updated_frame.update({cond: action.effect[cond]})
-
-        self.update(updated_frame)
 
 
 class World():
@@ -127,24 +104,8 @@ class World():
 
     def meets_precondition(self, preconditions) -> bool:
 
-        current_frame = self.timeline[self.last_timestamp]
-
-        # for component,value pair in precondition
-        for component, value in preconditions.items():
-
-            if (
-                # if world state has item and
-                (component in current_frame.keys())
-                # and also in enough quantity
-                and (current_frame[component] >= value)
-            ):
-                pass
-
-            else:
-
-                return False  # If it fails at all, instantly return False
-
-        return True  # If it never fails, return True
+        last_frame = self.timeline[self.last_timestamp]
+        return last_frame.meets_precondition(preconditions)
 
     def update_world(self, action: Action):
 
@@ -187,7 +148,7 @@ class World():
 
     def update_timeline(self):
 
-        self.timeline[self.last_timestamp + 1]\
+        self.timeline[self.last_timestamp + 1] \
             = self.timeline[self.last_timestamp].dupe()
 
         for item, value in self.offsets[self.last_timestamp].items():

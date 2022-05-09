@@ -47,8 +47,7 @@ class CookingSession:
             return True
 
         # end_condition is when (subset(world state) == goal state @ timestamp)
-        if self.world_state.meets_precondition(
-                self.recipe.goal_state):
+        if self.world_state.meets_precondition(self.recipe.goal_state):
             print(colour(Colour.GREEN,
                          f"\n\nSuccessfully made: {self.recipe.name}!\n"))
             return True
