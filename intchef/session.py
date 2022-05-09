@@ -26,6 +26,9 @@ class CookingSession:
         # init: default WorldState
         self.world_state: WorldState = WorldState({0: recipe.ingredients})
 
+        # Precompute agent plan
+        self.agent.precompute(recipe, timeout)
+
         # param to include washing equipment in final goal state?
 
     # Check for end of cycle
@@ -67,7 +70,7 @@ class CookingSession:
             self.timestamp, operator.le, action_h=True))
         print()
 
-        return self.timestamp, self.debug_msg
+        return self.timestamp, self.debug_msg, self.agent.opened_nodes
 
     def loop(self) -> bool:
         """ Loop method, makes choices every tick """

@@ -13,8 +13,14 @@ from intchef.goap.world import WorldState, WorldStateFrame
 
 class Agent(ABC):
 
+    def __init__(self) -> None:
+        self.opened_nodes = 0
+
     def __repr__(self):
         return colour(Colour.PURPLE, self.__class__.__name__)
+
+    def precompute(self, recipe: Recipe, timeout: int) -> int:
+        return 0
 
     @abstractmethod
     def policy(self, world_state: WorldState, timestamp: int) -> Action:
@@ -58,6 +64,8 @@ class RandomAgent(Agent):
                ) -> Action:
         """ Randomly select an Action from the list of legal actions """
 
+        self.opened_nodes += 1
+
         legal_actions = self._get_legal_actions(
             world_state[timestamp], verbose=True)
 
@@ -72,6 +80,8 @@ class ActionAgent(Agent):
                ) -> Action:
         """ Randomly select an Action from the list of legal actions, preferring not to Do Nothing """
 
+        self.opened_nodes += 1
+
         legal_actions = self._get_smart_legal_actions(
             world_state, timestamp, verbose=True)
 
@@ -81,8 +91,9 @@ class ActionAgent(Agent):
 class BruteForceAgent(Agent):
     """Brute-Force Uninformed Depth-First-Search """
 
-    def __init__(self, recipe: Recipe, timeout: int):
-        self.iter = 0
+    def precompute(self, recipe: Recipe, timeout: int):
+
+        self.opened_nodes = 0
 
         self.goal_state: Condition = recipe.goal_state
         self.dummy_world: WorldState = WorldState({0: recipe.ingredients})
@@ -95,16 +106,17 @@ class BruteForceAgent(Agent):
 
         if self.success:
             print("BEST:", best_depth, self.best_plan)
-            print(f"Through {self.iter} iterations")
+            print(f"Through {self.opened_nodes} iterations")
         else:
-            print(type(self).__name__ +
-                  " did not find a solution within the timeout limit. Consider increasing the timeout?")
+            print(f"{type(self).__name__ } did not find a solution throughout {self.opened_nodes} opened nodes within the timeout limit of {self.timeout}. Consider increasing the timeout?")
             sys.exit()
+
+        return self.opened_nodes
 
     def DFS_recursion(self, world_state: WorldState,
                       depth: int) -> Tuple[bool, int, str]:
 
-        self.iter += 1
+        self.opened_nodes += 1
 
         # If goal state, return action history
         if world_state[depth].meets_precondition(self.goal_state):

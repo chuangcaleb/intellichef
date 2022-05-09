@@ -96,7 +96,8 @@ class Recipe(KitchenResource):
 
     def print_details(self):
 
-        print("########################################################################\n")
+        print(
+            "\n########################################################################\n")
         print("Recipe for:", colour(Colour.GREEN, self.name))
 
         print("Goal State:", end=" ")
