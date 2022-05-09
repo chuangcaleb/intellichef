@@ -5,7 +5,6 @@ import sys
 from typing import List, Tuple
 
 from colours import Colour, colour
-from intchef.goap import world
 from intchef.goap.abstract import Recipe
 
 from intchef.goap.actions import ALL_ACTIONS, Action, ActionList, Condition
@@ -18,28 +17,10 @@ class Agent(ABC):
         return colour(Colour.PURPLE, self.__class__.__name__)
 
     @abstractmethod
-    def my_policy(self,
-                  world_state: WorldState,
-                  timestamp: int,
-                  legal_actions: List[Action]) -> Action:
-        """ Policy for action choice given all legal actions at world state """
+    def policy(self, world_state: WorldState, timestamp: int) -> Action:
         pass
 
-    def policy(self, world_state: WorldState, timestamp: int) -> Action:
-        """ Main policy wrapper, passes legal actions to specific policy """
-
-        # Grab a list of legal Actions if the current WorldState meets its preconditions
-        legal_actions = self._get_legal_actions(world_state[timestamp])
-
-        print('All Legal Actions:\n', legal_actions, end="\n\n")
-
-        # Select action according to agent's policy
-        action = self.my_policy(world_state, timestamp, legal_actions)
-        # print(type(self).__name__, "chooses:", action, end="\n\n")
-
-        return action
-
-    def _get_legal_actions(self, world_state_frame: WorldStateFrame) -> List[Action]:
+    def _get_legal_actions(self, world_state_frame: WorldStateFrame, verbose=False) -> List[Action]:
         """ Grab a list of legal Actions if the current WorldState meets its preconditions """
 
         legal_actions = [
@@ -47,26 +28,39 @@ class Agent(ABC):
             if world_state_frame.meets_precondition(action.precond)
         ]
 
+        if verbose:
+            print('All Legal Actions:\n', legal_actions, end="\n\n")
+
         return legal_actions
+
+    # def _get_smart_legal_actions(self, world_state: WorldState) -> List[Action]:
+    #     pass
 
 
 class RandomAgent(Agent):
 
-    def my_policy(self,
-                  world_state: WorldState,
-                  timestamp: int,
-                  legal_actions: List[Action]) -> Action:
+    def policy(self,
+               world_state: WorldState,
+               timestamp: int
+               ) -> Action:
         """ Randomly select an Action from the list of legal actions """
+
+        legal_actions = self._get_legal_actions(
+            world_state[timestamp], verbose=True)
+
         return random.choice(tuple(legal_actions))
 
 
 class ActionAgent(Agent):
 
-    def my_policy(self,
-                  world_state: WorldState,
-                  timestamp: int,
-                  legal_actions: List[Action]) -> Action:
+    def policy(self,
+               world_state: WorldState,
+               timestamp: int,
+               ) -> Action:
         """ Randomly select an Action from the list of legal actions, preferring not to Do Nothing """
+
+        legal_actions = self._get_legal_actions(
+            world_state[timestamp], verbose=True)
 
         # if any other action(s) than IDLE, remove IDLE
         if len(legal_actions) > 1 and ActionList.IDLE in legal_actions:
@@ -147,8 +141,12 @@ class BruteForceAgent(Agent):
 
             return subtree_has_success, best_depth_subtree, best_plan
 
-    def my_policy(self,
-                  world_state: WorldState,
-                  timestamp: int,
-                  legal_actions: List[Action]) -> Action:
+    def policy(self,
+               world_state: WorldState,
+               timestamp: int,
+               ) -> Action:
+
+        # Print the legal actions, for consistency with other agents
+        self._get_legal_actions(world_state[timestamp], verbose=True)
+
         return self.best_plan[timestamp]
