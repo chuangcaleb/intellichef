@@ -90,9 +90,10 @@ class ActionAgent(Agent):
 class BruteForceAgent(Agent):
     """Brute-Force Uninformed Depth-First-Search """
 
-    def __init__(self, avoid_idling: bool) -> None:
+    def __init__(self, avoid_idling: bool, goal_terminates: bool) -> None:
         super().__init__()
         self.avoid_idling = avoid_idling
+        self.goal_terminates = goal_terminates
 
     def __repr__(self):
         classname = super().__repr__()
@@ -137,6 +138,7 @@ class BruteForceAgent(Agent):
         # If goal state, return action history
         elif world[depth].meets_precondition(self.goal_state):
             self.success_nodes_found += 1
+            print(world.action_hist)
             # print("success state")
             return True, depth, world.action_hist
 
@@ -155,7 +157,8 @@ class BruteForceAgent(Agent):
             subtree_has_success = False
 
             # Over all legal actions
-            while legal_actions:
+            while (legal_actions and
+                   (not subtree_has_success if self.goal_terminates else True)):
 
                 # New parallel world timeline
                 sub_world = world.dupe()

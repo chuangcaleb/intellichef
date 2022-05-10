@@ -57,15 +57,16 @@ def main():
 
     recipe_book = intchef.RecipeBook()
     recipe = recipe_book.CHICKEN_FILLET_MEAL
-    timeout = 16
+    timeout = 13
     # timeout = 25
 
     # agent = intchef.agent.RandomAgent()
-    agent = intchef.agent.ActionAgent()
-    # agent = intchef.agent.BruteForceAgent(avoid_idling=True)
+    # agent = intchef.agent.ActionAgent()
+    agent = intchef.agent.BruteForceAgent(
+        avoid_idling=True, goal_terminates=False)
     # agent = intchef.agent.BruteForceAgent(avoid_idling=False)
 
-    run_n_sessions(agent, recipe, n_iter=100, timeout=timeout)
+    # run_n_sessions(agent, recipe, n_iter=100, timeout=timeout)
     # run_cooking_session(agent, recipe, timeout)
 
 
