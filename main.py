@@ -55,9 +55,18 @@ def run_n_sessions(agent, recipe, timeout, n_iter: int):
 def main():
     """Main entry point for the script."""
 
+    agent_list = [
+        intchef.agent.RandomAgent(),
+        intchef.agent.ActionAgent(),
+        intchef.agent.BruteForceAgent(avoid_idling=True),
+        intchef.agent.BruteForceAgent(
+            avoid_idling=True, goal_terminates=False),
+        intchef.agent.BruteForceAgent(avoid_idling=False)
+    ]
+
     recipe_book = intchef.RecipeBook()
     recipe = recipe_book.CHICKEN_FILLET_MEAL
-    timeout = 13
+    timeout = 12
     # timeout = 25
 
     # agent = intchef.agent.RandomAgent()

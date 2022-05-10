@@ -98,7 +98,9 @@ class BruteForceAgent(Agent):
     def __repr__(self):
         classname = super().__repr__()
         if self.avoid_idling:
-            return f"{classname} with avoid idling"
+            classname = f"{classname} " + "+ avoid idling"
+        if self.goal_terminates:
+            classname = f"{classname} " + "+ goal termination"
         return classname
 
     def precompute(self, recipe: Recipe, timeout: int):
