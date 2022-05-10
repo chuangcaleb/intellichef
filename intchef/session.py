@@ -67,9 +67,9 @@ class CookingSession:
         print("Final world state history:")
         print(self.world.get_repr(
             self.timestamp, operator.le, action_h=True))
-        print("\n\n")
+        print()
 
-        return self.timestamp, self.debug_msg, self.agent
+        return self.timestamp, self.debug_msg, self.agent, self.world._clean_action_hist
 
     def loop(self) -> bool:
         """ Loop method, makes choices every tick """

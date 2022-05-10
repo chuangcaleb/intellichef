@@ -11,6 +11,8 @@
 
 A coursework assignment for the COMP3004 Designing Intelligent Agents module.
 
+Chuang Caleb 20204134
+
 > Following a recipe is one thing, but managing your kitchen resources is another!
 
 ### Basics of GOAP
@@ -55,35 +57,15 @@ A reasonable backwards heuristic function could be the amount of time an action 
 
 <!-- Since the search space is not very big, it is not necessary to run an informed search. -->
 
-### Study
-
-This study aims to see if there's a difference in optimizing total time elapsed vs total time spent active. (whole steps until reaching goal? Varying h(n) scaling?)
-
-Including current till future or entire past to future
-
 <!-- After working, some agents will also need to rest. -->
 ## Getting Started <a name = "getting_started"></a>
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-### Installing
+<!-- ### Installing
 
 Clone the repo
 
 ```shell
 git clone https://github.com/chuangcaleb/intellichef
-```
-
-### Prerequisites
-
-Run the following command to install the required python packages:
-
-```python
-pip install requirements.txt
-```
-
-End with an example of getting some data out of the system or using it for a little demo.
-
-## Usage <a name = "usage"></a>
-
-Add notes about how to use the system.
+``` -->

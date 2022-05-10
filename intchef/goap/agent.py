@@ -21,6 +21,9 @@ class Agent(ABC):
     def __repr__(self):
         return colour(Colour.PURPLE, self.__class__.__name__)
 
+    def display_name(self):
+        return self
+
     def precompute(self, recipe: Recipe, timeout: int) -> int:
         return 0
 
@@ -90,7 +93,7 @@ class ActionAgent(Agent):
 class BruteForceAgent(Agent):
     """Brute-Force Uninformed Depth-First-Search """
 
-    def __init__(self, avoid_idling: bool, goal_terminates: bool = True) -> None:
+    def __init__(self, avoid_idling: bool, goal_terminates: bool = False) -> None:
         super().__init__()
         self.avoid_idling = avoid_idling
         self.goal_terminates = goal_terminates

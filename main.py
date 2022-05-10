@@ -14,7 +14,7 @@ def run_cooking_session(agent, recipe, timeout):
     """
 
     session = intchef.CookingSession(agent, recipe, timeout)
-    score, debug_msg, agent = session.main()
+    score, debug_msg, agent, action_hist = session.main()
 
     if debug_msg:
         print(colour(Colour.RED, f"Failed: {debug_msg}\n"))
@@ -22,9 +22,10 @@ def run_cooking_session(agent, recipe, timeout):
     print(f"Agent: {agent}")
     print(f"Recipe: {recipe}")
     print(f"Time taken / timeout: {score} / {timeout}")
-    print(f"Extra nodes opened: {agent.opened_nodes}")
-    print(f"Possible success nodes: {agent.success_nodes_found}")
-    print(f"Timed out nodes: {agent.timedout_nodes}")
+    # print(f"Extra nodes opened: {agent.opened_nodes}")
+    # print(f"Possible success nodes: {agent.success_nodes_found}")
+    # print(f"Timed out nodes: {agent.timedout_nodes}")
+    print(f"Action sequence: {action_hist}")
 
     return score, debug_msg
 
@@ -51,33 +52,40 @@ def run_n_sessions(agent, recipe, timeout, n_iter: int):
     print(f"Fails: {dict(debug_stats)}")
     print(f"Avg success score: {avg_score:.3f}")
 
+    return avg_score
+
 
 def main():
     """Main entry point for the script."""
 
-    agent_list = [
-        intchef.agent.RandomAgent(),
-        intchef.agent.ActionAgent(),
-        intchef.agent.BruteForceAgent(avoid_idling=True),
-        intchef.agent.BruteForceAgent(
-            avoid_idling=True, goal_terminates=False),
-        intchef.agent.BruteForceAgent(avoid_idling=False)
-    ]
+    # agent_list = [
+    #     intchef.agent.RandomAgent(),
+    #     intchef.agent.ActionAgent(),
+    #     intchef.agent.BruteForceAgent(avoid_idling=True),
+    #     intchef.agent.BruteForceAgent(
+    #         avoid_idling=True, goal_terminates=False),
+    #     intchef.agent.BruteForceAgent(avoid_idling=False)
+    # ]
 
     recipe_book = intchef.RecipeBook()
-    recipe = recipe_book.CHICKEN_FILLET_MEAL
-    timeout = 12
-    # timeout = 25
+    recipe = recipe_book.SIMPLE_TOAST_SANDWICH
+    # timeout = 15
+    timeout = 25
 
-    # agent = intchef.agent.RandomAgent()
+    agent = intchef.agent.RandomAgent()
     # agent = intchef.agent.ActionAgent()
-    agent = intchef.agent.BruteForceAgent(avoid_idling=True)
+    # agent = intchef.agent.BruteForceAgent(avoid_idling=True)
     # agent = intchef.agent.BruteForceAgent(
-    #     avoid_idling=True, goal_terminates=False)
+    #     avoid_idling=True, goal_terminates=True)
     # agent = intchef.agent.BruteForceAgent(avoid_idling=False)
 
     # run_n_sessions(agent, recipe, n_iter=100, timeout=timeout)
     run_cooking_session(agent, recipe, timeout)
+    # results = {}
+    # for agent in agent_list:
+    #     results[agent.display_name()] = run_n_sessions(
+    #         agent, recipe, n_iter=100, timeout=timeout)
+    # print(results)
 
 
 if __name__ == '__main__':
