@@ -152,6 +152,10 @@ class BruteForceAgent(Agent):
             else:
                 legal_actions = self._get_legal_actions(world[depth])
 
+            # Sort list
+            if len(legal_actions) > 1:
+                random.shuffle(legal_actions)
+
             best_depth_subtree = 9999999
             best_plan: List[Action] = None
             subtree_has_success = False
