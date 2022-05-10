@@ -62,12 +62,13 @@ def main():
 
     # agent = intchef.agent.RandomAgent()
     # agent = intchef.agent.ActionAgent()
-    agent = intchef.agent.BruteForceAgent(
-        avoid_idling=True, goal_terminates=False)
+    agent = intchef.agent.BruteForceAgent(avoid_idling=True)
+    # agent = intchef.agent.BruteForceAgent(
+    #     avoid_idling=True, goal_terminates=False)
     # agent = intchef.agent.BruteForceAgent(avoid_idling=False)
 
     # run_n_sessions(agent, recipe, n_iter=100, timeout=timeout)
-    # run_cooking_session(agent, recipe, timeout)
+    run_cooking_session(agent, recipe, timeout)
 
 
 if __name__ == '__main__':

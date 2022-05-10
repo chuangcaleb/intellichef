@@ -90,7 +90,7 @@ class ActionAgent(Agent):
 class BruteForceAgent(Agent):
     """Brute-Force Uninformed Depth-First-Search """
 
-    def __init__(self, avoid_idling: bool, goal_terminates: bool) -> None:
+    def __init__(self, avoid_idling: bool, goal_terminates: bool = True) -> None:
         super().__init__()
         self.avoid_idling = avoid_idling
         self.goal_terminates = goal_terminates
@@ -138,7 +138,7 @@ class BruteForceAgent(Agent):
         # If goal state, return action history
         elif world[depth].meets_precondition(self.goal_state):
             self.success_nodes_found += 1
-            print(world.action_hist)
+            # print(world.action_hist)
             # print("success state")
             return True, depth, world.action_hist
 
