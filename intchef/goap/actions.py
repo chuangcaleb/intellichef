@@ -34,8 +34,8 @@ class Effect(Dict):
 
 class ActionList:
 
-    IDLE = Action(
-        name="Do Nothing",
+    CONTINUE = Action(
+        name="Continue Previous",
         precond=Condition({}),
         effect=Effect({})
     )

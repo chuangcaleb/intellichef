@@ -65,7 +65,7 @@ class World():
     @property
     def _clean_action_hist(self):
         return {k: v for k, v in self.action_hist.items()
-                if v is not ActionList.IDLE}
+                if v is not ActionList.CONTINUE}
 
     def _pretty_pformat(self, timeline, actions_h=False):
         if actions_h == False:
@@ -94,7 +94,7 @@ class World():
         cop.timeline = self.timeline.copy()
         cop.offsets = self.offsets.copy()
         cop.action_hist = self.action_hist.copy()
-        return cop  # TODO : Why does this break when always Do Nothing?
+        return cop  # ? TODO : Why does it break when always Continue Previous?
 
     def get_repr(self, timestamp: int, ineq_op: operator, action_h=False) -> 'str':
         return self._pretty_pformat({time: frame

@@ -51,10 +51,10 @@ class Agent(ABC):
         if (
             # No pending delayed effects
             (world.last_timestamp == timestamp) and
-            # If there are effective actions, which excludes ActionList.IDLE
-            (len(legal_actions) > 1 and ActionList.IDLE in legal_actions)
+            # If there are effective actions, which excludes ActionList.CONTINUE
+            (len(legal_actions) > 1 and ActionList.CONTINUE in legal_actions)
         ):
-            legal_actions.remove(ActionList.IDLE)
+            legal_actions.remove(ActionList.CONTINUE)
 
         return legal_actions
 
@@ -79,7 +79,7 @@ class ActionAgent(Agent):
                world: World,
                timestamp: int,
                ) -> Action:
-        """ Randomly select an Action from the list of legal actions, preferring not to Do Nothing """
+        """ Randomly select an Action from the list of legal actions, preferring not to Continue Previous """
 
         legal_actions = self._get_legal_actions_avoid_idling(
             world, timestamp, verbose=True)
