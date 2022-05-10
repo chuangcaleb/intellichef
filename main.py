@@ -34,7 +34,7 @@ def run_n_sessions(agent, recipe, timeout, n_iter: int):
     all_scores = []
     debug_list = []
 
-    for _ in range(1, n_iter):
+    for _ in range(0, n_iter):
         score, debug_msg = \
             run_cooking_session(agent, recipe, timeout)
         if debug_msg:
